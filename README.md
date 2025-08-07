@@ -1,6 +1,6 @@
 # Easy_Invest
 
-### O Easy Invest tem como objetivo ajudar usuários "que não entendem muito sobre o assunto" a simular investimentos e empréstimos, para se planejarem financeiramente, com facilidade e praticidade.
+### O Easy Invest tem como objetivo ajudar usuários que estão dando os primeiros passos nesse mundo a simular investimentos e empréstimos, para se planejarem financeiramente, com facilidade e praticidade.
 
 ### Temos como público-alvo pessoas maiores de 18 anos que desejam entrar no mundo nos investimentos, tendo também a possibilidade de simular empréstimos para aqueles que desejam empreender.
 
