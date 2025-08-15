@@ -12,3 +12,57 @@
 -  A tipografia com serifa foi escolhida pois nosso site tem uma proposta mais amigável, que visa facilitar a vida do usuário ao invés de fazê-lo gastar tempo tentando decifrar fontes alternativas.
 -   A cor azul foi escolhida por transmitir sensações de confiança, segurança e tranquilidade. Sentimentos importantes quando se trata de finanças, especialmente para um público que está dando os primeiros passos nesse universo.
 -   A cor branca como cor secundária contribui para uma aparência limpa e organizada, facilitando na leitura de informações e navegação.
+
+# Identidade Visual – Easy Invest
+
+## Paleta de Cores
+
+A paleta foi desenvolvida para transmitir **confiança, praticidade e modernidade**, valores essenciais para um sistema de investimentos e planejamento financeiro.  
+Foi definida com base em estudos sobre psicologia das cores e padrões utilizados em fintechs.
+
+| Cor           | Hex       | Significado                                                                 |
+|---------------|-----------|-----------------------------------------------------------------------------|
+| Azul-Primário | `#1E88E5` | Representa confiança, segurança e estabilidade.                             
+| Azul-Claro    | `#90CAF9` | Traz leveza, proximidade e sensação de acolhimento visual.                   
+| Branco        | `#FFFFFF` | Passa limpeza, neutralidade e cria contraste para destacar elementos-chave. 
+| Cinza-Claro   | `#F5F5F5` | Fundo suave que evita poluição visual e mantém foco no conteúdo.             
+| Cinza-Escuro  | `#424242` | Usado em textos principais, garantindo alta legibilidade.                   
+
+---
+
+## Tipografia
+
+- **Fonte Primária:** **Poppins** Moderna, arredondada, transmite clareza e profissionalismo.  
+- **Fonte Secundária:** **Roboto** Ideal para textos corridos, garantindo excelente leitura.  
+
+**Justificativa:** Essas fontes equilibram **modernidade**  com **seriedade**.
+
+---
+
+## Estilo Visual
+
+- **Design Minimalista:** Layouts limpos, uso inteligente de espaços em branco.
+- **Formas Arredondadas:** Bordas de 8px para transmitir suavidade e acessibilidade.
+- **Ícones Lineares:** Simples e intuitivos, facilitando a rápida compreensão.
+- **Layout Responsivo:** Adaptação para desktop e mobile sem perder clareza.
+
+---
+
+## Fotografia
+
+- **Tema das imagens:**
+  - Pessoas utilizando tecnologia para gerenciar finanças.
+  - Elementos visuais como gráficos, dispositivos e cenas urbanas.
+- **Estilo:** Fotografias com boa iluminação, cores suaves e filtro que harmonize com a paleta.
+
+---
+
+## Valores do Sistema e Conexão com a Identidade Visual
+
+| Valor            | Como é transmitido visualmente                                                  |
+|------------------|----------------------------------------------------------------------------------|
+| **Confiança**    | Uso predominante do azul; tipografia clara e legível.                           |
+| **Praticidade**  | Interface minimalista e fácil navegação.                                        |
+| **Eficiência**   | Organização visual que prioriza informações importantes e ação rápida.          |
+| **Sofisticação** | Paleta harmônica, tipografia moderna e imagens de alta qualidade.               |
+
