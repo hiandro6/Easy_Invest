@@ -1,0 +1,37 @@
+main {
+    height: 100%;
+    background-color: rgb(54, 201, 201);
+    display: flex;
+}
+
+.nav-login {
+    flex-grow: 1;
+    background-color: burlywood;
+}
+
+.form-login {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blueviolet;
+}
+
+.form-login form {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    max-width: 40%;
+    padding: 15px;
+    border-radius: 10px;
+    gap: 15px;
+}
+
+.form-login label {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-login button {
+    margin-top: 15px;
+}
