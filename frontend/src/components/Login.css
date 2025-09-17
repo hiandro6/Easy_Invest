@@ -19,12 +19,14 @@ main {
 
 .form-login form {
     display: flex;
+    align-items: center;
     flex-direction: column;
     background-color: #fff;
-    max-width: 40%;
-    padding: 15px;
-    border-radius: 10px;
+    max-width: 50%;
+    padding: 100px 35px;
+    border-radius: 5px;
     gap: 15px;
+    min-width: 25%;
 }
 
 .form-login label {
@@ -34,4 +36,14 @@ main {
 
 .form-login button {
     margin-top: 15px;
+    max-width: 40%;
+    padding: 5px 15px;
+}
+
+.img-label-login {
+    max-width: 15px;
+}
+
+.form-login input {
+    padding: 10px 25px;
 }

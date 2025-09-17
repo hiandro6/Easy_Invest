@@ -1,4 +1,7 @@
 import "./Login.css";
+import emailIcon from "../assets/o-email.png";
+import passwordIcon from "../assets/old-big-key.png"
+
 export default function Login() {
   return (
     <main>
@@ -6,12 +9,12 @@ export default function Login() {
       <section className="form-login">
         <form>
           <label htmlFor="email">
-            <span>Email</span>
+            <span><img src={emailIcon} alt="Icon of a email" className="img-label-login"/> E-mail</span>
             <input type="email" placeholder="Email" id="email"/>
           </label>
 
           <label htmlFor="senha">
-            <span>Senha</span>
+            <span><img src={passwordIcon} alt="Icon of a key" className="img-label-login"/> Senha</span>
             <input type="password" placeholder="Senha" id="senha"/>
           </label>
 
