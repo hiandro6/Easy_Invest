@@ -55,6 +55,10 @@ main {
   text-align: center;
 }
 
+.form-login button:hover {
+  transform: scale(1.05);
+}
+
 .img-label-login {
   max-width: 15px;
 }
@@ -77,6 +81,10 @@ main {
   color: var(--secondary-color);
 }
 
+.form-login .link-login a:hover {
+  transform: scaleX(1.05);
+}
+
 .form-login label span {
   display: flex;
   gap: 5px;
@@ -87,8 +95,9 @@ main {
   gap: 10px;
 }
 
-.nav-login .title-login svg {
-  fill: var(--secondary-color);
+.nav-login .title-login:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .nav-login .logo-login img {

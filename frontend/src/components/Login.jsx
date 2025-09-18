@@ -1,7 +1,7 @@
 import "./Login.css";
 import emailIcon from "../assets/o-email.png";
 import passwordIcon from "../assets/old-big-key.png";
-import arrowIcon from "../assets/arrow.svg";
+import arrowIcon from "../assets/arrow_back.svg";
 import logo from "../assets/logo_cut.png"
 
 export default function Login() {
