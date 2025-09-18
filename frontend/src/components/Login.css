@@ -95,10 +95,12 @@ main {
   gap: 10px;
 }
 
-.nav-login .title-login:hover {
+.nav-login .title-login img:hover,
+.nav-login .title-login h1:hover {
   transform: scale(1.05);
   cursor: pointer;
 }
+
 
 .nav-login .logo-login img {
   max-width: 150px;
