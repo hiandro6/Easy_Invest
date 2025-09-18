@@ -1,12 +1,12 @@
 main {
-  height: 100%;   
+  height: 100%;
   display: flex;
 }
 
 .nav-login {
   flex-grow: 1;
   flex-basis: 50%;
-  background-color: burlywood;
+  background-color: #fff;
 }
 
 .form-login {
@@ -15,7 +15,8 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: blueviolet;
+  background-color: var(--primary-color);
+  border-radius: 50% 0px 0px 50%;
 }
 
 .form-login form {
@@ -24,7 +25,7 @@ main {
   flex-direction: column;
   background-color: #fff;
   max-width: 50%;
-  padding: 110px 35px 60px 35px;
+  padding: 100px 35px 45px 35px;
   border-radius: 5px;
   gap: 30px;
   width: 55%;
@@ -34,6 +35,8 @@ main {
   display: flex;
   flex-direction: column;
   width: 90%;
+  gap: 5px;
+  color: var(--secondary-color);
 }
 
 .form-login button {
@@ -53,7 +56,7 @@ main {
 }
 
 .form-login input {
-  padding: 10px 25px;
+  padding: 10px 10px;
   border-radius: 5px;
 }
 
@@ -68,4 +71,9 @@ main {
 .form-login .link-login a {
   text-decoration: none;
   color: var(--secondary-color);
+}
+
+.form-login label span {
+  display: flex;
+  gap: 5px;
 }

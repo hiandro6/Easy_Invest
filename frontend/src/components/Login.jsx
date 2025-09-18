@@ -14,7 +14,7 @@ export default function Login() {
                 src={emailIcon}
                 alt="Icon of a email"
                 className="img-label-login"
-              />{" "}
+              />
               E-mail
             </span>
             <input type="email" placeholder="Email" id="email" />
@@ -26,7 +26,7 @@ export default function Login() {
                 src={passwordIcon}
                 alt="Icon of a key"
                 className="img-label-login"
-              />{" "}
+              />
               Senha
             </span>
             <input type="password" placeholder="Senha" id="senha" />
