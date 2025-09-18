@@ -7,7 +7,10 @@ main {
   flex-grow: 1;
   flex-basis: 50%;
   background-color: #fff;
-  padding: 20px 30px;
+  padding: 20px 30px 10px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .form-login {
@@ -86,4 +89,8 @@ main {
 
 .nav-login .title-login svg {
   fill: var(--secondary-color);
+}
+
+.nav-login .logo-login img {
+  max-width: 150px;
 }

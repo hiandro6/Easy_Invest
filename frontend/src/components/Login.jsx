@@ -2,6 +2,7 @@ import "./Login.css";
 import emailIcon from "../assets/o-email.png";
 import passwordIcon from "../assets/old-big-key.png";
 import arrowIcon from "../assets/arrow.svg";
+import logo from "../assets/logo_cut.png"
 
 export default function Login() {
   return (
@@ -10,6 +11,10 @@ export default function Login() {
         <div className="title-login">
           <img src={arrowIcon} alt="Icon of a arrow" />
           <h1>Início</h1>
+        </div>
+
+        <div className="logo-login">
+          <img src={logo} alt="Image of a logo" />
         </div>
 
       </section>
