@@ -41,6 +41,7 @@ main {
   width: 90%;
   gap: 5px;
   color: var(--secondary-color);
+  font-weight: 600;
 }
 
 .form-login button {
@@ -53,6 +54,7 @@ main {
   border: none;
   border-radius: 5px;
   text-align: center;
+  font-weight: 700;
 }
 
 .form-login button:hover {
@@ -66,6 +68,7 @@ main {
 .form-login input {
   padding: 10px 10px;
   border-radius: 5px;
+  font-weight: 400;
 }
 
 .form-login .link-login {
@@ -104,4 +107,9 @@ main {
 
 .nav-login .logo-login img {
   max-width: 150px;
+}
+
+.nav-login .logo-login img:hover {
+  max-width: 150px;
+  transform: scale(1.1);
 }
