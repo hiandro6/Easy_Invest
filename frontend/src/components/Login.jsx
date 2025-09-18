@@ -1,11 +1,18 @@
 import "./Login.css";
 import emailIcon from "../assets/o-email.png";
 import passwordIcon from "../assets/old-big-key.png";
+import arrowIcon from "../assets/arrow.svg";
 
 export default function Login() {
   return (
     <main>
-      <section className="nav-login"></section>
+      <section className="nav-login">
+        <div className="title-login">
+          <img src={arrowIcon} alt="Icon of a arrow" />
+          <h1>Início</h1>
+        </div>
+
+      </section>
       <section className="form-login">
         <form>
           <label htmlFor="email">
