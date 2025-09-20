@@ -54,7 +54,7 @@ main {
   border: none;
   border-radius: 5px;
   text-align: center;
-  font-weight: var(--font-text-titiles);
+  font-weight: var(--font-text-titles);
 }
 
 .form-login button:hover {
