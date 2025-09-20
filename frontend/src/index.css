@@ -3,6 +3,8 @@
   --secondary-color: #427fdc;
   --primary-gray: #424242;
   --secondary-gray: #f5f5f5;
+  --font-text-normal: 500;
+  --font-text-titles: 700;
   font-family: "Nunito", sans-serif;
 }
 
