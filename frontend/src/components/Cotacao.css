@@ -1,0 +1,78 @@
+.cotacao-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cotacao-nav {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.cotacao-consulta {
+  flex-grow: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cotacao-moedas {
+  box-shadow: 0px 0px 15px gray;
+  width: 70%;
+  padding: 30px 20px;
+  display: flex;
+}
+
+.cotacao-moedas button {
+  width: 50%;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: var(--font-text-titles);
+  font-size: large;
+  padding: 10px;
+}
+
+.cotacao-entrada {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 15px;
+}
+
+.cotacao-saida {
+  flex-grow: 5;
+}
+
+.cotacao-entrada form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-weight: var(--font-text-titles);
+}
+.cotacao-entrada form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cotacao-consulta h1 {
+  color: var(--primary-color);
+}
+
+.cotacao-entrada form label input,
+.cotacao-entrada form label select {
+  padding: 10px 15px;
+}
+
+.cotacao-nav img:hover, .cotacao-moedas button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.cotacao-entrada form label select {
+    font-size: medium;
+    font-weight: var(--font-text-titles);
+}
