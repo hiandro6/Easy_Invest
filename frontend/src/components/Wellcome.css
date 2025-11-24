@@ -1,4 +1,4 @@
-main {
+.wellcome-main {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +6,7 @@ main {
   background-size: 120px;
 }
 
-main img {
+.wellcome-main img {
   width: 400px;
 }
 
@@ -22,7 +22,7 @@ main img {
   border-radius: 50%;
 }
 
-p {
+.wellcom-p {
   color: var(--primary-color);
   font-weight: var(--font-text-titles);
 }

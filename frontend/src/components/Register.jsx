@@ -6,7 +6,7 @@ import logo from "../assets/logo_cut.png";
 
 export default function Login() {
   return (
-    <main>
+    <main className="register-main">
       <section className="form-register">
         <div className="title-register">
           <img src={arrowIcon} alt="Icon of a arrow" />

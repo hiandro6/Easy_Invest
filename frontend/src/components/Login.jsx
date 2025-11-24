@@ -6,7 +6,7 @@ import logo from "../assets/logo_cut.png"
 
 export default function Login() {
   return (
-    <main>
+    <main className="login-main ">
       <section className="nav-login">
         <div className="title-login">
           <img src={arrowIcon} alt="Icon of a arrow" />
