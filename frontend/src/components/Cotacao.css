@@ -67,12 +67,38 @@
   padding: 10px 15px;
 }
 
-.cotacao-nav img:hover, .cotacao-moedas button:hover {
-    transform: scale(1.1);
-    cursor: pointer;
+.cotacao-nav img:hover,
+.cotacao-moedas button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .cotacao-entrada form label select {
-    font-size: medium;
-    font-weight: var(--font-text-titles);
+  font-size: medium;
+  font-weight: var(--font-text-titles);
+}
+
+.cotacao-saida {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.cotacao-saida .original,
+.cotacao-saida .destino {
+  width: 35%;
+  height: 70%;
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 10px;
+  color: var(--secondary-color);
+}
+
+.cotacao-valor {
+  align-self: center;
+  color: white;
 }

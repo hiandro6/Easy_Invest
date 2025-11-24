@@ -27,8 +27,14 @@ export default function Cotacao() {
                             <button>Consutar</button>
                         </div>
                         <div className="cotacao-saida">
-                            <div className="destino"></div>
-                            <div className="original"></div>
+                            <div className="destino">
+                                <h2>1 EUR = </h2>
+                                <h2 className="cotacao-valor">942.30932</h2>
+                            </div>
+                            <div className="original">
+                                <h2>EUR</h2>
+                                <h2 className="cotacao-valor">942.30932</h2>
+                            </div>
                         </div>
                     </div>
                 </section>
