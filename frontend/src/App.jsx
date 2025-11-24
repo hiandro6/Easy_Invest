@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <Register></Register>
+      <Login></Login>
     </>
   )
 }

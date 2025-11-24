@@ -96,12 +96,17 @@ main {
 
 .nav-login .title-login {
   display: flex;
+  align-items: center;
   gap: 10px;
+}
+.nav-login .title-login img {
+  height: 40px;
+  width: 40px;
 }
 
 .nav-login .title-login img:hover,
 .nav-login .title-login h1:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
   cursor: pointer;
 }
 
@@ -112,4 +117,5 @@ main {
 .nav-login .logo-login img:hover {
   max-width: 150px;
   transform: scale(1.1);
+  cursor: pointer;
 }
