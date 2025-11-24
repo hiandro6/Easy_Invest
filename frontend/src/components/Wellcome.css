@@ -1,0 +1,50 @@
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../assets/trending_up.svg");
+  background-size: 120px;
+}
+
+main img {
+  width: 400px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #fff;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+}
+
+p {
+  color: var(--primary-color);
+  font-weight: var(--font-text-titles);
+}
+
+.options {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.options button {
+  padding: 10px;
+  width: 150px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: var(--font-text-titles);
+}
+
+.options button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
