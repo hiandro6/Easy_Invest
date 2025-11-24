@@ -10,7 +10,7 @@
   width: 400px;
 }
 
-.content {
+.wellcome-content {
   display: flex;
   flex-direction: column;
   align-items: center;
