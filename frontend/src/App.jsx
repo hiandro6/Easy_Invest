@@ -5,11 +5,12 @@ import Wellcome from './components/Wellcome'
 import Comparar from './components/Comparar'
 import Cotacao from './components/Cotacao'
 import Taxas from './components/Taxas'
+import Dashboard from './components/Dashboard'
 function App() {
 
   return (
     <>
-      <Taxas></Taxas>
+      <Dashboard></Dashboard>
     </>
   )
 }
