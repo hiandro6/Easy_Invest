@@ -4,11 +4,12 @@ import Register from './components/Register'
 import Wellcome from './components/Wellcome'
 import Comparar from './components/Comparar'
 import Cotacao from './components/Cotacao'
+import Taxas from './components/Taxas'
 function App() {
 
   return (
     <>
-      <Cotacao></Cotacao>
+      <Taxas></Taxas>
     </>
   )
 }

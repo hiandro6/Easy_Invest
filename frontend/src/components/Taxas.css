@@ -1,0 +1,131 @@
+.taxas-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.taxas-nav {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.taxas-nav img:hover, .taxas-atualizacao button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.taxas-conteudo {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.taxas-atualizar {
+  flex-grow: 3;
+}
+
+.taxas-conteudo-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.taxas-cifrao {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.taxas-cifrao-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.taxas-cifrao-texto h2 {
+  color: var(--primary-color);
+}
+
+.taxas-cifrao-texto p {
+  color: var(--secondary-color);
+}
+
+.taxas-conteudo-valores {
+  width: 100%;
+  padding: 60px 20px;
+  box-shadow: 0px 0px 3px gray;
+  display: flex;
+  gap: 30px;
+}
+
+.alinhamento {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.taxas {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0px 0px 5px gray;
+  color: var(--primary-color);
+  border-radius: 10px;
+  flex-grow: 1;
+  padding: 25px 15px;
+}
+
+.taxa-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.taxa-cabecalho span {
+  width: 40px;
+  height: 40px;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.taxas h2 {
+  align-self: center;
+}
+
+.taxas-atualizar {
+    width: 90%;
+    display: flex;
+    justify-content: end;
+    align-items: flex-start;
+}
+
+.taxas-atualizacao {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.taxas-atualizacao button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: var(--font-text-titles);
+  font-size: large;
+  padding: 5px 15px;
+}
