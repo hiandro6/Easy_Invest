@@ -23,19 +23,19 @@ def login_user(email: str, password: str):
 
 
 
-@app.post("/simulations/investment", response_model=Simulation)
+@app.post("/simulations/investment", response_model=Simulation) #hiandro
 def simulate_investment(simulation: Simulation):
     "Simular investimento"
     pass
 
 
-@app.post("/simulations/loan", response_model=Simulation)
+@app.post("/simulations/loan", response_model=Simulation) #hiandro
 def simulate_loan(simulation: Simulation):
     "Simular empréstimo"
     pass
 
 
-@app.get("/simulations/history", response_model=list[Simulation])
+@app.get("/simulations/history", response_model=list[Simulation]) #hiandro
 def get_simulation_history(user_id: int):
     "Histórico de simulações"
 
