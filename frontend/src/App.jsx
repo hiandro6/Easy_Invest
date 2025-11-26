@@ -8,11 +8,12 @@ import Taxas from './components/Taxas'
 import Dashboard from './components/Dashboard'
 import Emprestimo from './components/Emprestimo'
 import Inflacao from './components/Inflacao'
+import Investimento from './components/Investimento'
 function App() {
 
   return (
     <>
-      <Emprestimo></Emprestimo>
+      <Investimento></Investimento>
     </>
   )
 }
