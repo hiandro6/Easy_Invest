@@ -24,7 +24,7 @@ def login_user(email: str, password: str):
 
 
 
-@app.post("/simulations/investment", response_model=Simulation)
+@app.post("/simulations/investment", response_model=Simulation) #hiandro
 def simulate_investment(simulation: Simulation):
     "Simular investimento"
     pass
@@ -37,7 +37,6 @@ def simulate_loan(loan: Loan):
     # montante = valor_inicial * (1 + taxa_juros * prazo_meses)  # Juros simples
 
     # montante = valor_inicial * (1 + taxa_juros) ** prazo_meses  # Juros compostos
-    pass
 @app.get("/simulations/history", response_model=list[Simulation])
 def get_simulation_history(user_id: int):
     "Histórico de simulações"
