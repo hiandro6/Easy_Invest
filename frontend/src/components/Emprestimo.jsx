@@ -31,7 +31,7 @@ export default function Emprestimo() {
         <img src={arrow} alt="Image of a arrow" />
       </header>
       <main className="emprestimo-main">
-        <div className="simular">
+        <div className="emprestimo-simular ">
           <h1>Simular Empréstimo</h1>
           <form action="">
             <div>
@@ -44,7 +44,7 @@ export default function Emprestimo() {
                 <input type="number" />
               </label>
             </div>
-            <div className="juros">
+            <div className="emprestimo-juros">
               <label htmlFor="">
                 <span>Juros (%)</span>
                 <input type="number" />
@@ -59,11 +59,11 @@ export default function Emprestimo() {
           </form>
           <button>Calcular</button>
         </div>
-        <div className="grafico">
+        <div className="emprestimo-grafico">
           <Chart chartType="LineChart" data={data} options={options} />
         </div>
       </main>
-      <section className="parcelas">
+      <section className="emprestimo-parcelas">
         <h1>Parcelas</h1>
         <h3>R$ 322,10 por 5 meses, totalizando R$ 1610,50</h3>
       </section>

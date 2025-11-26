@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <Inflacao></Inflacao>
+      <Emprestimo></Emprestimo>
     </>
   )
 }

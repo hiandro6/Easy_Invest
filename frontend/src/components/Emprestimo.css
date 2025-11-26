@@ -8,20 +8,21 @@
   display: flex;
   padding: 20px;
   align-items: center;
+  gap: 20px;
 }
 
-.simular {
+.emprestimo-simular {
   flex-grow: 1;
   max-width: 50%;
 }
 
-.grafico {
+.emprestimo-grafico {
   flex-grow: 1;
   box-shadow: 0 0 5px gray;
   border-radius: 10px;
 }
 
-.simular {
+.emprestimo-simular {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -30,32 +31,32 @@
   padding: 15px;
 }
 
-.simular h1 {
+.emprestimo-simular h1 {
   color: var(--primary-color);
 }
 
-.simular form {
+.emprestimo-simular form {
   display: flex;
   flex-wrap: wrap;
 }
-.simular form div {
+.emprestimo-simular form div {
   flex-grow: 1;
   flex-basis: 50%;
   padding: 0px 20px;
 }
 
-.simular form div {
+.emprestimo-simular form div {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.simular form div label {
+.emprestimo-simular form div label {
   display: flex;
   flex-direction: column;
 }
 
-.simular button {
+.emprestimo-simular button {
   background-color: var(--primary-color);
   color: #fff;
   border: none;
@@ -65,35 +66,35 @@
   padding: 10px 50px;
 }
 
-.simular input,
-.simular select {
+.emprestimo-simular input,
+.emprestimo-simular select {
   padding: 10px 50px;
 }
 
-.simular select {
+.emprestimo-simular select {
 }
 
-.simular .juros {
+.emprestimo-simular .emprestimo-juros {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.simular button:hover,
+.emprestimo-simular button:hover,
 .emprestimo-nav img:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
 
-.parcelas {
+.emprestimo-parcelas {
   padding: 20px;
 }
 
-.parcelas h1 {
+.emprestimo-parcelas h1 {
   color: var(--primary-color);
 }
 
-.parcelas h3 {
+.emprestimo-parcelas h3 {
   background-color: var(--primary-color);
   color: #fff;
   padding: 10px 50px;
