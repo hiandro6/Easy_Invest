@@ -1,6 +1,6 @@
 import "./Emprestimo.css";
 import { Chart } from "react-google-charts";
-import arrow from "../assets/arrow_back.svg"
+import arrow from "../assets/arrow_back.svg";
 
 const data = [
   ["Mês", "Saldo (R$)"],
@@ -31,46 +31,42 @@ export default function Emprestimo() {
         <img src={arrow} alt="Image of a arrow" />
       </header>
       <main className="emprestimo-main">
-          <div className="simular">
-            <h1>Simular Empréstimo</h1>
-            <form action="">
-              <div>
-                <label htmlFor="">
-                  <span>
-                    Valor desejado (R$)
-                  </span>
-                  <input type="number" />
-                </label>
-                <label htmlFor="">
-                  <span>
-                    Prazo (meses)
-                  </span>
-                  <input type="number" />
-                </label>
-              </div>
-              <div>
-                <label htmlFor="">
-                  <span>
-                    Juros (%)
-                  </span>
-                  <input type="number" />
-                </label>
-                <label htmlFor="">
-                  <select name="" id="">
-                    <option value="">Juros Simples</option>
-                    <option value="">Juros Compostos</option>
-                  </select>
-                </label>
-              </div>
-            </form>
-            <button>Calcular</button>
-          </div>
-          <div className="grafico">
-            <Chart chartType="LineChart" data={data} options={options}/>
-          </div>
+        <div className="simular">
+          <h1>Simular Empréstimo</h1>
+          <form action="">
+            <div>
+              <label htmlFor="">
+                <span>Valor desejado (R$)</span>
+                <input type="number" />
+              </label>
+              <label htmlFor="">
+                <span>Prazo (meses)</span>
+                <input type="number" />
+              </label>
+            </div>
+            <div className="juros">
+              <label htmlFor="">
+                <span>Juros (%)</span>
+                <input type="number" />
+              </label>
+              <label htmlFor="">
+                <select name="" id="">
+                  <option value="">Juros Simples</option>
+                  <option value="">Juros Compostos</option>
+                </select>
+              </label>
+            </div>
+          </form>
+          <button>Calcular</button>
+        </div>
+        <div className="grafico">
+          <Chart chartType="LineChart" data={data} options={options} />
+        </div>
       </main>
-      <section className="parcelas"></section>
-      
+      <section className="parcelas">
+        <h1>Parcelas</h1>
+        <h3>R$ 322,10 por 5 meses, totalizando R$ 1610,50</h3>
+      </section>
     </>
   );
 }
