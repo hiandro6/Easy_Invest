@@ -6,11 +6,12 @@ import Comparar from './components/Comparar'
 import Cotacao from './components/Cotacao'
 import Taxas from './components/Taxas'
 import Dashboard from './components/Dashboard'
+import Emprestimo from './components/Emprestimo'
 function App() {
 
   return (
     <>
-      <Dashboard></Dashboard>
+      <Emprestimo></Emprestimo>
     </>
   )
 }
