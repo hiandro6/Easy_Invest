@@ -1,0 +1,14 @@
+.emprestimo-nav {
+    height: 10%;
+    padding: 20px;
+}
+
+.emprestimo-main {
+    height: 50%;
+    display: flex;
+    padding: 20px;
+}
+
+.simular, .grafico {
+    flex-grow: 1;
+}

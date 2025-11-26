@@ -1,5 +1,6 @@
 import "./Emprestimo.css";
 import { Chart } from "react-google-charts";
+import arrow from "../assets/arrow_back.svg"
 
 const data = [
   ["Mês", "Saldo (R$)"],
@@ -26,7 +27,50 @@ const options = {
 export default function Emprestimo() {
   return (
     <>
-      <Chart chartType="LineChart" data={data} options={options} />
+      <header className="emprestimo-nav">
+        <img src={arrow} alt="Image of a arrow" />
+      </header>
+      <main className="emprestimo-main">
+          <div className="simular">
+            <h1>Simular Empréstimo</h1>
+            <form action="">
+              <div>
+                <label htmlFor="">
+                  <span>
+                    Valor desejado (R$)
+                  </span>
+                  <input type="number" />
+                </label>
+                <label htmlFor="">
+                  <span>
+                    Prazo (meses)
+                  </span>
+                  <input type="number" />
+                </label>
+              </div>
+              <div>
+                <label htmlFor="">
+                  <span>
+                    Juros (%)
+                  </span>
+                  <input type="number" />
+                </label>
+                <label htmlFor="">
+                  <select name="" id="">
+                    <option value="">Juros Simples</option>
+                    <option value="">Juros Compostos</option>
+                  </select>
+                </label>
+              </div>
+            </form>
+            <button>Calcular</button>
+          </div>
+          <div className="grafico">
+            <Chart chartType="LineChart" data={data} options={options}/>
+          </div>
+      </main>
+      <section className="parcelas"></section>
+      
     </>
   );
 }
