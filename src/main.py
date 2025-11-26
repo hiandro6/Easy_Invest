@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from schemas.user import User
 from schemas.simulation import Simulation
+from schemas.loan import Loan
 
 
 
@@ -30,11 +31,13 @@ def simulate_investment(simulation: Simulation):
 
 
 @app.post("/simulations/loan", response_model=Simulation)
-def simulate_loan(simulation: Simulation):
-    "Simular empréstimo"
+def simulate_loan(loan: Loan):
+    valores_mensais = []
+    
+    # montante = valor_inicial * (1 + taxa_juros * prazo_meses)  # Juros simples
+
+    # montante = valor_inicial * (1 + taxa_juros) ** prazo_meses  # Juros compostos
     pass
-
-
 @app.get("/simulations/history", response_model=list[Simulation])
 def get_simulation_history(user_id: int):
     "Histórico de simulações"
