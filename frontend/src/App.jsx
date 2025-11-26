@@ -7,11 +7,12 @@ import Cotacao from './components/Cotacao'
 import Taxas from './components/Taxas'
 import Dashboard from './components/Dashboard'
 import Emprestimo from './components/Emprestimo'
+import Inflacao from './components/Inflacao'
 function App() {
 
   return (
     <>
-      <Emprestimo></Emprestimo>
+      <Inflacao></Inflacao>
     </>
   )
 }
