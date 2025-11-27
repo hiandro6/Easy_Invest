@@ -14,7 +14,7 @@ const data = [
 ];
 
 const options = {
-  title: "Evolução do Empréstimo com Juros Compostos (10% ao mês)",
+  title: "Resultado da simulação",
   hAxis: {
     title: "Meses",
   },
@@ -36,7 +36,7 @@ export default function investimento() {
           <form action="">
             <div>
               <label htmlFor="">
-                <span>Valor desejado (R$)</span>
+                <span>Valor Inicial (R$)</span>
                 <input type="number" />
               </label>
               <label htmlFor="">
@@ -46,10 +46,11 @@ export default function investimento() {
             </div>
             <div className="investimento-juros">
               <label htmlFor="">
-                <span>Juros (%)</span>
+                <span>Taxa de rendimento (% ao mês)</span>
                 <input type="number" />
               </label>
               <label htmlFor="">
+                <span>Tipo de Aplicação</span>
                 <select name="" id="">
                   <option value="">Juros Simples</option>
                   <option value="">Juros Compostos</option>
@@ -61,12 +62,9 @@ export default function investimento() {
         </div>
         <div className="investimento-grafico">
           <Chart chartType="LineChart" data={data} options={options} />
+          <button>Gerar PDF</button>
         </div>
       </main>
-      <section className="investimento-parcelas">
-        <h1>Parcelas</h1>
-        <h3>R$ 322,10 por 5 meses, totalizando R$ 1610,50</h3>
-      </section>
     </>
   );
 }

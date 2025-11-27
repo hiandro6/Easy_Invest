@@ -7,8 +7,9 @@
   height: 50%;
   display: flex;
   padding: 20px;
-  align-items: center;
   gap: 20px;
+
+  align-items: center;
 }
 
 .investimento-simular {
@@ -20,6 +21,10 @@
   flex-grow: 1;
   box-shadow: 0 0 5px gray;
   border-radius: 10px;
+  padding: 30px 0px;
+  display: flex;
+  flex-direction: column;
+  gap:  20px;
 }
 
 .investimento-simular {
@@ -39,6 +44,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
 .investimento-simular form div {
   flex-grow: 1;
   flex-basis: 50%;
@@ -71,9 +77,6 @@
   padding: 10px 50px;
 }
 
-.investimento-simular select {
-}
-
 .investimento-simular .investimento-juros {
   display: flex;
   flex-direction: column;
@@ -81,7 +84,7 @@
 }
 
 .investimento-simular button:hover,
-.investimento-nav img:hover {
+.investimento-nav img:hover, .investimento-grafico button:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -100,4 +103,16 @@
   padding: 10px 50px;
   border-radius: 10px;
   max-width: 47%;
+}
+
+
+.investimento-grafico button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: var(--font-text-titles);
+  padding: 10px 50px;
+  align-self: center;
 }
