@@ -9,11 +9,12 @@ import Dashboard from './components/Dashboard'
 import Emprestimo from './components/Emprestimo'
 import Inflacao from './components/Inflacao'
 import Investimento from './components/Investimento'
+import Historico from './components/Historico'
 function App() {
 
   return (
     <>
-      <Investimento></Investimento>
+      <Historico></Historico>
     </>
   )
 }
