@@ -1,0 +1,100 @@
+.emprestimo-nav {
+  height: 10%;
+  padding: 20px;
+}
+
+.emprestimo-main {
+  height: 50%;
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  gap: 20px;
+}
+
+.emprestimo-simular {
+  flex-grow: 1;
+  max-width: 50%;
+}
+
+.emprestimo-grafico {
+  flex-grow: 1;
+  box-shadow: 0 0 5px gray;
+  border-radius: 10px;
+}
+
+.emprestimo-simular {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 2px solid var(--primary-color);
+  align-items: center;
+  padding: 15px;
+}
+
+.emprestimo-simular h1 {
+  color: var(--primary-color);
+}
+
+.emprestimo-simular form {
+  display: flex;
+  flex-wrap: wrap;
+}
+.emprestimo-simular form div {
+  flex-grow: 1;
+  flex-basis: 50%;
+  padding: 0px 20px;
+}
+
+.emprestimo-simular form div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.emprestimo-simular form div label {
+  display: flex;
+  flex-direction: column;
+}
+
+.emprestimo-simular button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: var(--font-text-titles);
+  padding: 10px 50px;
+}
+
+.emprestimo-simular input,
+.emprestimo-simular select {
+  padding: 10px 50px;
+}
+
+.emprestimo-simular .emprestimo-juros {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.emprestimo-simular button:hover,
+.emprestimo-nav img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.emprestimo-parcelas {
+  padding: 20px;
+}
+
+.emprestimo-parcelas h1 {
+  color: var(--primary-color);
+}
+
+.emprestimo-parcelas h3 {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 50px;
+  border-radius: 10px;
+  max-width: 47%;
+}
