@@ -9,8 +9,6 @@ from typing import Optional
 from schemas.loan import Loan
 
 
-
-
 app = FastAPI(title="Easy Invest API", version="1.0.0")
 
 load_dotenv()
@@ -50,10 +48,7 @@ async def get_cotacao(par: str):
 
         return response.json()
 
-@app.post("/simulations/loan", response_model=Simulation) #hiandro
-def simulate_loan(simulation: Simulation):
-    "Simular empréstimo"
-    pass
+
 @app.post("/simulations/loan", response_model=Simulation)
 def simulate_loan(loan: Loan):
     valores_mensais = []
@@ -61,6 +56,8 @@ def simulate_loan(loan: Loan):
     # montante = valor_inicial * (1 + taxa_juros * prazo_meses)  # Juros simples
 
     # montante = valor_inicial * (1 + taxa_juros) ** prazo_meses  # Juros compostos
+    pass
+
 @app.get("/simulations/history", response_model=list[Simulation])
 def get_simulation_history(user_id: int):
     "Histórico de simulações"
