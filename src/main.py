@@ -2,17 +2,14 @@ from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from schemas.user import User
 from schemas.simulation import Simulation
-<<<<<<< HEAD
 from dotenv import load_dotenv
 import os
 import httpx 
 from typing import Optional
-=======
 from schemas.loan import Loan
 
 
 
->>>>>>> 587453493dc08c98f8b24f0daca4302c30d7053d
 
 app = FastAPI(title="Easy Invest API", version="1.0.0")
 
@@ -41,7 +38,6 @@ def simulate_investment(simulation: Simulation):
     pass
 
 
-<<<<<<< HEAD
 @app.post("/cotacao/")
 async def get_cotacao(par: str):
     headers = {"X-API-Key": token}
@@ -58,13 +54,11 @@ async def get_cotacao(par: str):
 def simulate_loan(simulation: Simulation):
     "Simular empréstimo"
     pass
-=======
 @app.post("/simulations/loan", response_model=Simulation)
 def simulate_loan(loan: Loan):
     valores_mensais = []
     
     # montante = valor_inicial * (1 + taxa_juros * prazo_meses)  # Juros simples
->>>>>>> 587453493dc08c98f8b24f0daca4302c30d7053d
 
     # montante = valor_inicial * (1 + taxa_juros) ** prazo_meses  # Juros compostos
 @app.get("/simulations/history", response_model=list[Simulation])
