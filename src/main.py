@@ -8,7 +8,8 @@ import httpx
 from typing import Optional
 from schemas.loan import Loan
 from schemas.investment import Investment
-
+import requests
+from datetime import datetime
 
 app = FastAPI(title="Easy Invest API", version="1.0.0")
 
@@ -123,3 +124,30 @@ def compare_simulations(simulations_ids: list[int]):
     "Comparar simulações"
     pass
 
+
+@app.get("/taxas-juros/") #hiandro
+def get_rates():
+
+    def consultar_sgs(serie_id: int) -> float:
+        url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{serie_id}/dados?formato=json&ultimos=1"
+        resp = requests.get(url)
+        dados = resp.json()
+        return float(dados[0]["valor"])
+
+    tr = consultar_sgs(25)
+    juros_fixos = consultar_sgs(26)
+    
+    poupanca = tr + juros_fixos
+    selic = consultar_sgs(11)
+    cdi = consultar_sgs(12)
+    ipca = consultar_sgs(433)
+
+    atualizado_em = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    return {
+        "atualizado_em": atualizado_em,
+        "poupanca": f"{poupanca:.2f}%",
+        "selic": f"{selic:.2f}%",
+        "cdi": f"{cdi:.2f}%",
+        "ipca": f"{ipca:.2f}%"
+    }
