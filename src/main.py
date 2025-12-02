@@ -7,6 +7,7 @@ import os
 import httpx 
 from typing import Optional
 from schemas.loan import Loan
+from schemas.investment import Investment
 
 
 app = FastAPI(title="Easy Invest API", version="1.0.0")
@@ -31,10 +32,39 @@ def login_user(email: str, password: str):
 
 
 @app.post("/simulations/investment", response_model=Simulation) #hiandro
-def simulate_investment(simulation: Simulation):
-    "Simular investimento"
-    pass
+def simulate_investment(investment: Investment):
 
+    C = investment.valor_inicial
+    i = investment.taxa_mensal
+    t = investment.prazo_meses
+    evolucao = []
+
+    if investment.tipo_juros == "simples":
+        M = C * (1 + i * t)
+
+        for mes in range(1, t + 1):
+            valor = C * (1 + i * mes)
+            evolucao.append({"mes": mes, "valor": round(valor)})
+    if investment.tipo_juros == "compostos":
+        M = C * ((1 + i) ** t)
+
+        for mes in range(1, t + 1):
+            valor = C * ((1 + i) ** mes)
+            evolucao.append({"mes": mes, "valor": round(valor)})
+
+
+    simulation = Simulation(
+        id=None,
+        user_id=1, #verificar depois como vai ficar o id
+        type="investment",
+        input_data=investment.model_dump(),
+        result_data={
+            "valor_final": M,
+            "evolucao": evolucao
+        }
+    )
+
+    return simulation
 
 @app.post("/cotacao/")
 async def get_cotacao(par: str):
@@ -72,7 +102,7 @@ def simulate_loan(loan: Loan):
 
     simulation = Simulation(
         id=None,
-        user_id=1,
+        user_id=1, #verificar depois como vai ficar o id
         type="loan",
         input_data=loan.model_dump(),
         result_data={
