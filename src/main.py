@@ -52,11 +52,34 @@ async def get_cotacao(par: str):
 @app.post("/simulations/loan", response_model=Simulation)
 def simulate_loan(loan: Loan):
     valores_mensais = []
-    
-    # montante = valor_inicial * (1 + taxa_juros * prazo_meses)  # Juros simples
+    C = loan.valor_desejado
+    i = loan.taxa_juros
+    t = loan.prazo_meses
 
-    # montante = valor_inicial * (1 + taxa_juros) ** prazo_meses  # Juros compostos
-    pass
+    if loan.tipo_juros == "simples": # montante = valor_inicial * (1 + taxa_juros * prazo_meses)
+        M = C * (1 + i * t)
+        for mes in range(1, t + 1):
+            valor_mensal = C * (1 + i * mes) 
+            valores_mensais.append({"mes": mes, "valor": round(valor_mensal)})
+    
+    elif loan.tipo_juros == "compostos": # montante = valor_inicial * (1 + taxa_juros) ** prazo_meses
+        M = C * (1 + i) ** t
+        for mes in range(1, t + 1):
+            valor_mensal = C * (1 + i) ** mes 
+            valores_mensais.append({"mes": mes, "valor": round(valor_mensal)})
+
+    loan.valor_final = round(M)
+
+    simulation = Simulation(
+        id=None,
+        user_id=1,
+        type="loan",
+        input_data=loan.model_dump(),
+        result_data={
+            "valor_final": M,
+            "valores_mensais": valores_mensais
+        })
+    return simulation
 
 @app.get("/simulations/history", response_model=list[Simulation])
 def get_simulation_history(user_id: int):
