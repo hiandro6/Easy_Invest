@@ -9,7 +9,7 @@ from typing import Optional
 from schemas.loan import Loan
 from schemas.investment import Investment
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = FastAPI(title="Easy Invest API", version="1.0.0")
 
@@ -125,29 +125,48 @@ def compare_simulations(simulations_ids: list[int]):
     pass
 
 
-@app.get("/taxas-juros/") #hiandro
+@app.get("/taxas-juros/")
 def get_rates():
 
     def consultar_sgs(serie_id: int) -> float:
-        url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{serie_id}/dados?formato=json&ultimos=1"
-        resp = requests.get(url)
-        dados = resp.json()
-        return float(dados[0]["valor"])
+        hoje = datetime.now()
+        data_inicial = (hoje - timedelta(days=730)).strftime("%d/%m/%Y")
+        data_final = hoje.strftime("%d/%m/%Y")
 
-    tr = consultar_sgs(25)
-    juros_fixos = consultar_sgs(26)
-    
+        url = (
+            f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{serie_id}/dados"
+            f"?formato=json&dataInicial={data_inicial}&dataFinal={data_final}"
+        )
+
+        resp = requests.get(url, timeout=10)
+        if resp.status_code != 200:
+            raise HTTPException(status_code=503, detail=f"Erro ao consultar série {serie_id}")
+
+        dados = resp.json()
+
+        if not dados:
+            raise HTTPException(status_code=503, detail=f"Série {serie_id} sem dados recentes")
+
+        # pega o último registro (mais atual)
+        ultimo = dados[-1]
+
+        if "valor" not in ultimo:
+            raise HTTPException(status_code=503, detail=f"Retorno inválido da série {serie_id}")
+
+        return float(ultimo["valor"])
+
+    tr = consultar_sgs(25)              # taxa referencial
+    juros_fixos = consultar_sgs(26)     # juros da poupança
     poupanca = tr + juros_fixos
+
     selic = consultar_sgs(11)
     cdi = consultar_sgs(12)
     ipca = consultar_sgs(433)
 
-    atualizado_em = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-
     return {
-        "atualizado_em": atualizado_em,
-        "poupanca": f"{poupanca:.2f}%",
-        "selic": f"{selic:.2f}%",
-        "cdi": f"{cdi:.2f}%",
-        "ipca": f"{ipca:.2f}%"
+        "atualizado_em": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+        "poupanca": f"{round(poupanca, 2)}%",
+        "selic": f"{round(selic, 2)}%",
+        "cdi": f"{round(cdi, 2)}%",
+        "ipca": f"{round(ipca, 2)}%"
     }
