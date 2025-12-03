@@ -8,6 +8,7 @@ import httpx
 from typing import Optional
 from schemas.loan import Loan
 from schemas.investment import Investment
+from schemas.investment_inflation import InvestmentInflation
 import requests
 from datetime import datetime, timedelta
 
@@ -53,6 +54,7 @@ def simulate_investment(investment: Investment):
             valor = C * ((1 + i) ** mes)
             evolucao.append({"mes": mes, "valor": round(valor)})
 
+    lucro = M - C
 
     simulation = Simulation(
         id=None,
@@ -61,6 +63,7 @@ def simulate_investment(investment: Investment):
         input_data=investment.model_dump(),
         result_data={
             "valor_final": M,
+            "lucro": lucro,
             "evolucao": evolucao
         }
     )
@@ -170,3 +173,72 @@ def get_rates():
         "cdi": f"{round(cdi, 2)}%",
         "ipca": f"{round(ipca, 2)}%"
     }
+
+@app.post("/simulations/investment-inflation", response_model=Simulation)
+def simulate_investment_inflation(investment_inflation: InvestmentInflation):
+
+
+    C = investment_inflation.valor_inicial
+    i = investment_inflation.taxa_mensal
+    t = investment_inflation.prazo_meses
+    evolucao = []
+
+
+    cenarios = {
+        "otimista": 0.0025,
+        "neutro":   0.0040,
+        "pessimista": 0.0070
+    }
+
+    
+    inflacao = cenarios[investment_inflation.cenario]
+
+  
+    if investment_inflation.tipo_juros == "simples":
+        M = C * (1 + i * t)
+
+        for mes in range(1, t + 1):
+            valor = C * (1 + i * mes)                     # valor nominal
+            valor_ajustado = valor / ((1 + inflacao) ** mes)  # valor real corrigido
+
+            evolucao.append({
+                "mes": mes,
+                "valor": round(valor),  
+                "valor_real": round(valor_ajustado, 2)
+            })
+
+
+    if investment_inflation.tipo_juros == "compostos":
+        M = C * ((1 + i) ** t)
+
+        for mes in range(1, t + 1):
+            valor = C * ((1 + i) ** mes)                  # valor nominal
+            valor_ajustado = valor / ((1 + inflacao) ** mes)
+
+            evolucao.append({
+                "mes": mes,
+                "valor": round(valor),          
+                "valor_real": round(valor_ajustado, 2)
+            })
+
+    M_real = M / ((1 + inflacao) ** t) #valor final real
+
+    lucro_nominal = M - C
+    lucro_real = M_real - C
+
+    simulation = Simulation(
+        id=None,
+        user_id=1,
+        type="investment_inflation",
+        input_data=investment_inflation.model_dump(),
+        result_data={
+            "valor_final_nominal": round(M, 2),
+            "valor_final_real": round(M_real, 2),
+            "lucro_nominal": round(lucro_nominal, 2),
+            "lucro_real": round(lucro_real, 2),
+            "inflacao_mensal": inflacao,
+            "evolucao": evolucao
+        }
+    )
+
+    return simulation

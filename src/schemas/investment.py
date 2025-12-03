@@ -7,4 +7,4 @@ class Investment(BaseModel):
     valor_inicial: float
     taxa_mensal: float
     prazo_meses: int
-    tipo_juros: Literal['simples', 'composto']
+    tipo_juros: Literal['simples', 'compostos']
