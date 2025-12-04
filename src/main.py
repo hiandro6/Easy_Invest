@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from schemas.user import User
 from schemas.simulation import Simulation
 from dotenv import load_dotenv
@@ -71,7 +71,7 @@ def simulate_investment(investment: Investment):
     return simulation
 
 @app.post("/cotacao/")
-async def get_cotacao(par: str):
+async def get_cotacao(par: str, valor: float = Query(..., description="Valor a ser convertido")):
     headers = {"X-API-Key": token}
 
     async with httpx.AsyncClient() as client:
@@ -80,7 +80,22 @@ async def get_cotacao(par: str):
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail=response.text)
 
-        return response.json()
+        data = response.json()
+
+    # A AwesomeAPI retorna algo tipo: {"USDBRL": {"bid": "5.12", ...}}
+    # Então pegamos o primeiro item desse dict:
+    key = list(data.keys())[0]
+    bid = float(data[key]["bid"])
+
+    # Faz a conversão
+    valor_convertido = valor * bid
+
+    return {
+        "par": par,
+        "valor_original": valor,
+        "bid": bid,
+        "valor_convertido": valor_convertido
+    }
 
 
 @app.post("/simulations/loan", response_model=Simulation)
