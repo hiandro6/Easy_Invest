@@ -12,8 +12,9 @@ from schemas.loan import Loan
 from schemas.investment import Investment
 from schemas.investment_inflation import InvestmentInflation
 from schemas.compare import CompareRequest, ComparisonItem
+from database import create_db_and_tables
+from contextlib import asynccontextmanager
 
-app = FastAPI(title="Easy Invest API", version="1.0.0")
 
 load_dotenv()
 
@@ -21,6 +22,19 @@ load_dotenv()
 token = os.getenv('AWESOME_API_KEY')
 awesome_url = "https://economia.awesomeapi.com.br/json/last"
 
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI): #executa ao iniciar a API
+    create_db_and_tables()
+    yield  
+
+
+app = FastAPI(
+    title="Easy Invest API",
+    version="1.0.0",
+    lifespan=lifespan
+)
 
 @app.post("/users/register", response_model=User)
 def register_user(user: User):
@@ -271,7 +285,7 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation):
 
             evolucao.append({
                 "mes": mes,
-                "valor": round(valor),          
+                "valor": round(valor, 2),          
                 "valor_real": round(valor_ajustado, 2)
             })
 
