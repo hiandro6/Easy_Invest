@@ -1,16 +1,17 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, Query
-from schemas.user import User
-from schemas.simulation import Simulation
 from dotenv import load_dotenv
 import os
 import httpx 
+import requests
 from typing import Optional
+from datetime import datetime, timedelta
+from schemas.user import User
+from schemas.simulation import Simulation
 from schemas.loan import Loan
 from schemas.investment import Investment
 from schemas.investment_inflation import InvestmentInflation
-import requests
-from datetime import datetime, timedelta
+from schemas.compare import CompareRequest, ComparisonItem
 
 app = FastAPI(title="Easy Invest API", version="1.0.0")
 
@@ -37,7 +38,7 @@ def login_user(email: str, password: str):
 def simulate_investment(investment: Investment):
 
     C = investment.valor_inicial
-    i = investment.taxa_mensal
+    i = investment.taxa_mensal / 100
     t = investment.prazo_meses
     evolucao = []
 
@@ -102,7 +103,7 @@ async def get_cotacao(par: str, valor: float = Query(..., description="Valor a s
 def simulate_loan(loan: Loan):
     valores_mensais = []
     C = loan.valor_desejado
-    i = loan.taxa_juros
+    i = loan.taxa_juros / 100
     t = loan.prazo_meses
 
     if loan.tipo_juros == "simples": # montante = valor_inicial * (1 + taxa_juros * prazo_meses)
@@ -130,18 +131,56 @@ def simulate_loan(loan: Loan):
         })
     return simulation
 
-@app.get("/simulations/history", response_model=list[Simulation])
+@app.get("/simulations/history", response_model=list[Simulation]) #hiandro
 def get_simulation_history(user_id: int):
     "Histórico de simulações"
 
     pass
 
 
-@app.post("/simulations/compare")
-def compare_simulations(simulations_ids: list[int]):
-    "Comparar simulações"
-    pass
 
+@app.post("/simulations/compare", response_model=Simulation)  # hiandro
+def compare_simulations(compare_request: CompareRequest):
+
+    def calcular(item: ComparisonItem):
+        C = item.valor_inicial
+        i = item.taxa_mensal / 100  
+        t = item.prazo_meses
+        evolucao = []
+
+        if item.tipo_juros == "simples":
+            M = C * (1 + i * t)
+            for mes in range(1, t + 1):
+                valor = C * (1 + i * mes)
+                evolucao.append({"mes": mes, "valor": round(valor, 2)})
+
+        else:
+            M = C * ((1 + i) ** t)
+            for mes in range(1, t + 1):
+                valor = C * ((1 + i) ** mes)
+                evolucao.append({"mes": mes, "valor": round(valor, 2)})
+
+        return {
+            "valor_final": round(M, 2),
+            "lucro": round(M - C, 2),
+            "evolucao": evolucao
+        }
+
+    resultado = {
+        "simulacao1": calcular(compare_request.simulacao1),
+        "simulacao2": calcular(compare_request.simulacao2),
+        "simulacao3": calcular(compare_request.simulacao3)
+    }
+
+    simulation = Simulation(
+        id=None,
+        user_id=1,
+        type="comparison",
+        input_data=compare_request.model_dump(),
+        result_data=resultado
+    )
+
+    return simulation
 
 @app.get("/taxas-juros/")
 def get_rates():
@@ -194,7 +233,7 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation):
 
 
     C = investment_inflation.valor_inicial
-    i = investment_inflation.taxa_mensal
+    i = investment_inflation.taxa_mensal / 100
     t = investment_inflation.prazo_meses
     evolucao = []
 
