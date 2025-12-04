@@ -1,20 +1,20 @@
-from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Depends
 from dotenv import load_dotenv
 import os
 import httpx 
 import requests
-from typing import Optional
 from datetime import datetime, timedelta
-from schemas.user import User
 from schemas.simulation import Simulation
 from schemas.loan import Loan
 from schemas.investment import Investment
 from schemas.investment_inflation import InvestmentInflation
 from schemas.compare import CompareRequest, ComparisonItem
-from database import create_db_and_tables
+from database import create_db_and_tables, get_session
 from contextlib import asynccontextmanager
-
+from schemas.user import UserLogin, UserCreate, UserRead
+from core.security import verify_password, create_access_token, hash_password
+from sqlmodel import Session, select
+from models.user import User
 
 load_dotenv()
 
@@ -36,16 +36,44 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-@app.post("/users/register", response_model=User)
-def register_user(user: User):
-    "Cadastro de novos usuários"
-    pass
+@app.post("/users/register", response_model=UserRead)
+def register_user(user: UserCreate, session: Session = Depends(get_session)):
 
+    email_exists = session.exec(
+        select(User).where(User.email == user.email)
+    ).first()
+
+    if email_exists:
+        raise HTTPException(400, "E-mail já cadastrado.")
+
+    new_user = User(
+        name=user.name,
+        email=user.email,
+        hashed_password=hash_password(user.password)
+    )
+
+    session.add(new_user)
+    session.commit()
+    session.refresh(new_user)
+
+    return new_user
 
 @app.post("/users/login")
-def login_user(email: str, password: str):
-    "Autenticação de usuários"
-    pass
+def login_user(credentials: UserLogin, session: Session = Depends(get_session)):
+
+    user = session.exec(
+        select(User).where(User.email == credentials.email)
+    ).first()
+
+    if not user:
+        raise HTTPException(400, "Credenciais inválidas.")
+
+    if not verify_password(credentials.password, user.hashed_password):
+        raise HTTPException(400, "Credenciais inválidas.")
+
+    token = create_access_token({"sub": str(user.id)})
+
+    return {"access_token": token, "token_type": "bearer"}
 
 
 @app.post("/simulations/investment", response_model=Simulation) #hiandro

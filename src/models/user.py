@@ -1,7 +1,6 @@
-from sqlmodel import SQLModel, Field
-from typing import Optional
+from sqlmodel import SQLModel, Field, Relationship
+from typing import Optional, List
 from datetime import datetime, timezone
-
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -9,3 +8,5 @@ class User(SQLModel, table=True):
     email: str = Field(unique=True, index=True)
     hashed_password: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+    simulations: List["Simulation"] = Relationship(back_populates="user")
