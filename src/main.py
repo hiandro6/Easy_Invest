@@ -16,7 +16,7 @@ from core.security import verify_password, create_access_token, hash_password
 from sqlmodel import Session, select
 from models.user import User
 from core.auth import get_current_user
-
+from fastapi.security import OAuth2PasswordRequestForm
 
 load_dotenv()
 
@@ -61,16 +61,16 @@ def register_user(user: UserCreate, session: Session = Depends(get_session)):
     return new_user
 
 @app.post("/users/login")
-def login_user(credentials: UserLogin, session: Session = Depends(get_session)):
+def login_user(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)):
 
     user = session.exec(
-        select(User).where(User.email == credentials.email)
+        select(User).where(User.email == form_data.username)
     ).first()
 
     if not user:
         raise HTTPException(400, "Credenciais inválidas.")
 
-    if not verify_password(credentials.password, user.hashed_password):
+    if not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(400, "Credenciais inválidas.")
 
     token = create_access_token({"sub": str(user.id)})
