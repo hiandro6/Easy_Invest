@@ -14,9 +14,10 @@ function App() {
 
   return (
     <>
-      <Emprestimo></Emprestimo>
+      {/* <Emprestimo></Emprestimo> */}
       <Taxas></Taxas>
-      <Register></Register>
+      <Login></Login>
+      {/* <Register></Register> */}
     </>
   )
 }

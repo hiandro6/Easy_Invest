@@ -119,3 +119,25 @@
   transform: scale(1.1);
   cursor: pointer;
 }
+
+.feedback {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  animation: fadeIn 0.3s ease;
+}
+
+.feedback.success {
+  background-color: #d4f8d4;
+  color: #1a7b1a;
+  border: 1px solid #1a7b1a;
+}
+
+.feedback.error {
+  background-color: #ffd6d6;
+  color: #9b1a1a;
+  border: 1px solid #9b1a1a;
+}
+
