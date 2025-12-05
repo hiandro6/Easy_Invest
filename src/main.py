@@ -15,6 +15,8 @@ from schemas.user import UserLogin, UserCreate, UserRead
 from core.security import verify_password, create_access_token, hash_password
 from sqlmodel import Session, select
 from models.user import User
+from core.auth import get_current_user
+
 
 load_dotenv()
 
@@ -77,7 +79,7 @@ def login_user(credentials: UserLogin, session: Session = Depends(get_session)):
 
 
 @app.post("/simulations/investment", response_model=Simulation) #hiandro
-def simulate_investment(investment: Investment):
+def simulate_investment(investment: Investment, current_user: User = Depends(get_current_user)):
 
     C = investment.valor_inicial
     i = investment.taxa_mensal / 100
@@ -101,7 +103,7 @@ def simulate_investment(investment: Investment):
 
     simulation = Simulation(
         id=None,
-        user_id=1, #verificar depois como vai ficar o id
+        user_id=current_user.id,
         type="investment",
         input_data=investment.model_dump(),
         result_data={
@@ -142,7 +144,7 @@ async def get_cotacao(par: str, valor: float = Query(..., description="Valor a s
 
 
 @app.post("/simulations/loan", response_model=Simulation)
-def simulate_loan(loan: Loan):
+def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user)):
     valores_mensais = []
     C = loan.valor_desejado
     i = loan.taxa_juros / 100
@@ -164,7 +166,7 @@ def simulate_loan(loan: Loan):
 
     simulation = Simulation(
         id=None,
-        user_id=1, #verificar depois como vai ficar o id
+        user_id=current_user.id,
         type="loan",
         input_data=loan.model_dump(),
         result_data={
@@ -174,7 +176,8 @@ def simulate_loan(loan: Loan):
     return simulation
 
 @app.get("/simulations/history", response_model=list[Simulation]) #hiandro
-def get_simulation_history(user_id: int):
+def get_simulation_history(current_user: User = Depends(get_current_user)
+):
     "Histórico de simulações"
 
     pass
@@ -182,7 +185,7 @@ def get_simulation_history(user_id: int):
 
 
 @app.post("/simulations/compare", response_model=Simulation)  # hiandro
-def compare_simulations(compare_request: CompareRequest):
+def compare_simulations(compare_request: CompareRequest, current_user: User = Depends(get_current_user)):
 
     def calcular(item: ComparisonItem):
         C = item.valor_inicial
@@ -216,7 +219,7 @@ def compare_simulations(compare_request: CompareRequest):
 
     simulation = Simulation(
         id=None,
-        user_id=1,
+        user_id=current_user.id,
         type="comparison",
         input_data=compare_request.model_dump(),
         result_data=resultado
@@ -271,7 +274,7 @@ def get_rates():
     }
 
 @app.post("/simulations/investment-inflation", response_model=Simulation)
-def simulate_investment_inflation(investment_inflation: InvestmentInflation):
+def simulate_investment_inflation(investment_inflation: InvestmentInflation, current_user: User = Depends(get_current_user)):
 
 
     C = investment_inflation.valor_inicial
@@ -324,7 +327,7 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation):
 
     simulation = Simulation(
         id=None,
-        user_id=1,
+        user_id=current_user.id,
         type="investment_inflation",
         input_data=investment_inflation.model_dump(),
         result_data={

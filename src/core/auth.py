@@ -12,21 +12,24 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     session: Session = Depends(get_session)
 ):
+    # --- 1) Decodifica o token ---
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
 
         if user_id is None:
-            raise HTTPException(401, "Token malformado")
+            raise HTTPException(status_code=401, detail="Token malformado")
 
+        # Sempre converter para int
         user_id = int(user_id)
 
     except JWTError:
-        raise HTTPException(401, "Token inválido")
+        raise HTTPException(status_code=401, detail="Token inválido ou expirado")
 
+    # --- 2) Busca usuário no banco ---
     user = session.get(User, user_id)
 
     if not user:
-        raise HTTPException(404, "Usuário não encontrado")
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
     return user
