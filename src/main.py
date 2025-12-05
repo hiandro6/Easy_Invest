@@ -42,7 +42,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -250,7 +250,7 @@ def compare_simulations(compare_request: CompareRequest, current_user: User = De
 
     return simulation
 
-@app.get("/taxas-juros/")
+@app.get("/rates")
 def get_rates():
 
     def consultar_sgs(serie_id: int) -> float:
