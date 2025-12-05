@@ -18,6 +18,7 @@ from models.user import User
 from core.auth import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 from models.simulation import Simulation 
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -37,6 +38,14 @@ app = FastAPI(
     title="Easy Invest API",
     version="1.0.0",
     lifespan=lifespan
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.post("/users/register", response_model=UserRead)
