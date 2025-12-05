@@ -250,7 +250,7 @@ def compare_simulations(compare_request: CompareRequest, current_user: User = De
 
     return simulation
 
-@app.get("/rates")
+@app.get("/taxas-juros/")
 def get_rates():
 
     def consultar_sgs(serie_id: int) -> float:

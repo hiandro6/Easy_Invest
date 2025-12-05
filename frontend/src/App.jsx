@@ -16,6 +16,7 @@ function App() {
     <>
       <Emprestimo></Emprestimo>
       <Taxas></Taxas>
+      <Register></Register>
     </>
   )
 }
