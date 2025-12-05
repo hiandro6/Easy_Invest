@@ -7,5 +7,5 @@ class Loan(BaseModel):
     valor_desejado: float
     prazo_meses: int
     taxa_juros: float
-    valor_final: float
-    tipo_juros: Literal['simples', 'composto']
+    valor_final: Optional[float] = None
+    tipo_juros: Literal['simples', 'compostos']

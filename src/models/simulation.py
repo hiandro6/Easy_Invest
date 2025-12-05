@@ -1,18 +1,16 @@
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Column, JSON, Relationship
 from typing import Optional
 from datetime import datetime, timezone
-
 
 class Simulation(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
     user_id: int = Field(foreign_key="user.id")
 
-    type: str  # investment, loan, comparison, etc.
+    type: str
 
-    # Para funcionar em SQLite e MySQL:
-    input_data: str       # salvaremos JSON como string
-    result_data: str      # salvaremos JSON como string
+    input_data: dict = Field(sa_column=Column(JSON))
+    result_data: dict = Field(sa_column=Column(JSON))
 
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 

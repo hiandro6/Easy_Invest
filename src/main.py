@@ -17,6 +17,7 @@ from sqlmodel import Session, select
 from models.user import User
 from core.auth import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
+from models.simulation import Simulation 
 
 load_dotenv()
 
@@ -78,8 +79,8 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessio
     return {"access_token": token, "token_type": "bearer"}
 
 
-@app.post("/simulations/investment", response_model=Simulation) #hiandro
-def simulate_investment(investment: Investment, current_user: User = Depends(get_current_user)):
+@app.post("/simulations/investment", response_model=Simulation) 
+def simulate_investment(investment: Investment, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
     C = investment.valor_inicial
     i = investment.taxa_mensal / 100
@@ -98,11 +99,10 @@ def simulate_investment(investment: Investment, current_user: User = Depends(get
         for mes in range(1, t + 1):
             valor = C * ((1 + i) ** mes)
             evolucao.append({"mes": mes, "valor": round(valor)})
-
-    lucro = M - C
+    M = round(M, 2)
+    lucro = round(M - C, 2)
 
     simulation = Simulation(
-        id=None,
         user_id=current_user.id,
         type="investment",
         input_data=investment.model_dump(),
@@ -112,6 +112,10 @@ def simulate_investment(investment: Investment, current_user: User = Depends(get
             "evolucao": evolucao
         }
     )
+
+    session.add(simulation)
+    session.commit()
+    session.refresh(simulation)
 
     return simulation
 
@@ -144,7 +148,7 @@ async def get_cotacao(par: str, valor: float = Query(..., description="Valor a s
 
 
 @app.post("/simulations/loan", response_model=Simulation)
-def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user)):
+def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
     valores_mensais = []
     C = loan.valor_desejado
     i = loan.taxa_juros / 100
@@ -162,30 +166,37 @@ def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user)):
             valor_mensal = C * (1 + i) ** mes 
             valores_mensais.append({"mes": mes, "valor": round(valor_mensal)})
 
-    loan.valor_final = round(M)
+    loan.valor_final = round(M, 2)
 
     simulation = Simulation(
-        id=None,
-        user_id=current_user.id,
-        type="loan",
-        input_data=loan.model_dump(),
-        result_data={
-            "valor_final": M,
-            "valores_mensais": valores_mensais
-        })
+    user_id=current_user.id,
+    type="loan",
+    input_data=loan.model_dump(),
+    result_data={
+        "valor_final": M,
+        "valores_mensais": valores_mensais
+    })
+
+    session.add(simulation)
+    session.commit()
+    session.refresh(simulation)
+
     return simulation
 
-@app.get("/simulations/history", response_model=list[Simulation]) #hiandro
-def get_simulation_history(current_user: User = Depends(get_current_user)
+@app.get("/simulations/history", response_model=list[Simulation]) 
+def get_simulation_history(
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session)
 ):
-    "Histórico de simulações"
+    simulations = session.exec(
+        select(Simulation).where(Simulation.user_id == current_user.id)
+    ).all()
 
-    pass
+    return simulations
 
 
-
-@app.post("/simulations/compare", response_model=Simulation)  # hiandro
-def compare_simulations(compare_request: CompareRequest, current_user: User = Depends(get_current_user)):
+@app.post("/simulations/compare", response_model=Simulation)  
+def compare_simulations(compare_request: CompareRequest, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
     def calcular(item: ComparisonItem):
         C = item.valor_inicial
@@ -218,12 +229,15 @@ def compare_simulations(compare_request: CompareRequest, current_user: User = De
     }
 
     simulation = Simulation(
-        id=None,
         user_id=current_user.id,
         type="comparison",
         input_data=compare_request.model_dump(),
         result_data=resultado
     )
+
+    session.add(simulation)
+    session.commit()
+    session.refresh(simulation)
 
     return simulation
 
@@ -274,7 +288,7 @@ def get_rates():
     }
 
 @app.post("/simulations/investment-inflation", response_model=Simulation)
-def simulate_investment_inflation(investment_inflation: InvestmentInflation, current_user: User = Depends(get_current_user)):
+def simulate_investment_inflation(investment_inflation: InvestmentInflation, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
 
     C = investment_inflation.valor_inicial
@@ -326,7 +340,6 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation, cur
     lucro_real = M_real - C
 
     simulation = Simulation(
-        id=None,
         user_id=current_user.id,
         type="investment_inflation",
         input_data=investment_inflation.model_dump(),
@@ -339,5 +352,9 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation, cur
             "evolucao": evolucao
         }
     )
+
+    session.add(simulation)
+    session.commit()
+    session.refresh(simulation)
 
     return simulation
