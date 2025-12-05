@@ -23,3 +23,8 @@ typing-inspection==0.4.1
 typing_extensions==4.14.0
 urllib3==2.5.0
 uvicorn==0.38.0
+email-validator==2.1.0.post1
+passlib[bcrypt]==1.7.4
+bcrypt==4.2.0
+python-jose[cryptography]==3.3.0
+cryptography==43.0.0

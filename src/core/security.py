@@ -6,7 +6,10 @@ import os
 
 load_dotenv()  # garante que o .env seja lido
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(
+    schemes=["argon2"],
+    deprecated="auto"
+)
 
 # 🔐 Dados sensíveis agora vêm do .env, não ficam expostos no código
 SECRET_KEY = os.getenv("SECRET_KEY")
