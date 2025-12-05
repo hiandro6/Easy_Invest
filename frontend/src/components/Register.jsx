@@ -34,13 +34,25 @@ export default function Login() {
       }, 1200);
   
     } catch (error) {
+
       if (error.response?.data?.detail) {
-        setErro(error.response.data.detail);
+        const detail = error.response.data.detail;
+    
+        if (Array.isArray(detail)) {
+          setErro(detail[0].msg);
+        } else if (typeof detail === "string") {
+          setErro(detail);
+        } else {
+          setErro("Erro ao registrar.");
+        }
+    
       } else {
         setErro("Erro ao registrar. Tente novamente.");
       }
+    
       setTimeout(() => setErro(""), 5000);
     }
+    
   }
   
   return (
