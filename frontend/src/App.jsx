@@ -17,6 +17,7 @@ function App() {
       {/* <Emprestimo></Emprestimo> */}
       <Taxas></Taxas>
       <Login></Login>
+      <Emprestimo></Emprestimo>
       {/* <Register></Register> */}
     </>
   )

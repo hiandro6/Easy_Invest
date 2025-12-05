@@ -4,7 +4,7 @@ from datetime import datetime
 
 class Simulation(BaseModel):
     id: Optional[int] = None 
-    user_id: int
+    user_id: Optional[int] = None
     type: str
     input_data: Any
     result_data: Any

@@ -4,7 +4,8 @@ import os
 import httpx 
 import requests
 from datetime import datetime, timedelta
-from schemas.simulation import Simulation
+from schemas.simulation import Simulation as SimulationSchema
+from models.simulation import Simulation as SimulationModel
 from schemas.loan import Loan
 from schemas.investment import Investment
 from schemas.investment_inflation import InvestmentInflation
@@ -16,8 +17,7 @@ from core.security import verify_password, create_access_token, hash_password
 from sqlmodel import Session, select
 from models.user import User
 from core.auth import get_current_user
-from fastapi.security import OAuth2PasswordRequestForm
-from models.simulation import Simulation 
+from fastapi.security import OAuth2PasswordRequestForm 
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
@@ -88,7 +88,7 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessio
     return {"access_token": token, "token_type": "bearer"}
 
 
-@app.post("/simulations/investment", response_model=Simulation) 
+@app.post("/simulations/investment", response_model=SimulationSchema) 
 def simulate_investment(investment: Investment, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
     C = investment.valor_inicial
@@ -111,7 +111,7 @@ def simulate_investment(investment: Investment, current_user: User = Depends(get
     M = round(M, 2)
     lucro = round(M - C, 2)
 
-    simulation = Simulation(
+    simulation = SimulationModel(
         user_id=current_user.id,
         type="investment",
         input_data=investment.model_dump(),
@@ -156,8 +156,10 @@ async def get_cotacao(par: str, valor: float = Query(..., description="Valor a s
     }
 
 
-@app.post("/simulations/loan", response_model=Simulation)
+@app.post("/simulations/loan", response_model=SimulationSchema)
 def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
+    print("Recebido:", loan)
+    print("TIPO:", repr(loan.tipo_juros))
     valores_mensais = []
     C = loan.valor_desejado
     i = loan.taxa_juros / 100
@@ -177,7 +179,7 @@ def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user), se
 
     loan.valor_final = round(M, 2)
 
-    simulation = Simulation(
+    simulation = SimulationModel(
     user_id=current_user.id,
     type="loan",
     input_data=loan.model_dump(),
@@ -192,19 +194,19 @@ def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user), se
 
     return simulation
 
-@app.get("/simulations/history", response_model=list[Simulation]) 
+@app.get("/simulations/history", response_model=list[SimulationSchema]) 
 def get_simulation_history(
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session)
 ):
     simulations = session.exec(
-        select(Simulation).where(Simulation.user_id == current_user.id)
+        select(SimulationModel).where(SimulationModel.user_id == current_user.id)
     ).all()
 
     return simulations
 
 
-@app.post("/simulations/compare", response_model=Simulation)  
+@app.post("/simulations/compare", response_model=SimulationSchema)  
 def compare_simulations(compare_request: CompareRequest, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
     def calcular(item: ComparisonItem):
@@ -237,7 +239,7 @@ def compare_simulations(compare_request: CompareRequest, current_user: User = De
         "simulacao3": calcular(compare_request.simulacao3)
     }
 
-    simulation = Simulation(
+    simulation = SimulationModel(
         user_id=current_user.id,
         type="comparison",
         input_data=compare_request.model_dump(),
@@ -296,7 +298,7 @@ def get_rates():
         "ipca": f"{round(ipca, 2)}%"
     }
 
-@app.post("/simulations/investment-inflation", response_model=Simulation)
+@app.post("/simulations/investment-inflation", response_model=SimulationSchema)
 def simulate_investment_inflation(investment_inflation: InvestmentInflation, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
 
@@ -348,7 +350,7 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation, cur
     lucro_nominal = M - C
     lucro_real = M_real - C
 
-    simulation = Simulation(
+    simulation = SimulationModel(
         user_id=current_user.id,
         type="investment_inflation",
         input_data=investment_inflation.model_dump(),
