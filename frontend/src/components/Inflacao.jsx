@@ -1,73 +1,139 @@
 import "./Inflacao.css";
 import { Chart } from "react-google-charts";
 import arrow from "../assets/arrow_back.svg";
-
-const data = [
-  ["Mês", "Saldo (R$)"],
-  [0, 1000],
-  [1, 1100],
-  [2, 1200],
-  [3, 1300],
-  [4, 1400],
-  [5, 1500],
-  [6, 1600],
-];
-
-const options = {
-  title: "Resultados da Simulação",
-  hAxis: {
-    title: "Meses",
-  },
-  vAxis: {
-    title: "Saldo (R$)",
-  },
-  legend: "none",
-};
+import { useState } from "react";
 
 export default function Inflacao() {
+  const [valorInicial, setValorInicial] = useState("");
+  const [prazoMeses, setPrazoMeses] = useState("");
+  const [taxaMensal, setTaxaMensal] = useState("");
+  const [tipoJuros, setTipoJuros] = useState("simples");
+  const [cenario, setCenario] = useState("otimista");
+
+  const [graficoData, setGraficoData] = useState([["Mês", "Nominal", "Real"]]);
+  const [valorFinalReal, setValorFinalReal] = useState(null);
+  const [lucroReal, setLucroReal] = useState(null);
+
+  async function calcular() {
+    try {
+      const token = localStorage.getItem("token");
+
+      const body = {
+        valor_inicial: Number(valorInicial),
+        taxa_mensal: Number(taxaMensal),
+        prazo_meses: Number(prazoMeses),
+        tipo_juros: tipoJuros,
+        cenario: cenario,
+      };
+
+      const response = await fetch("http://localhost:8000/simulations/investment-inflation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+
+      // montar gráfico
+      const linhas = [["Mês", "Nominal", "Real"]];
+      data.result_data.evolucao.forEach((item) => {
+        linhas.push([item.mes, item.valor, item.valor_real]);
+      });
+
+      setGraficoData(linhas);
+
+      // salvar valores reais
+      setValorFinalReal(data.result_data.valor_final_real);
+      setLucroReal(data.result_data.lucro_real);
+
+    } catch (err) {
+      console.error("Erro ao calcular inflação:", err);
+    }
+  }
+
   return (
     <>
       <header className="inflacao-nav">
         <img src={arrow} alt="Image of a arrow" />
       </header>
+
       <main className="inflacao-main">
         <div className="inflacao-simular">
-          <h1>Simular Investimento</h1>
-          <form action="">
+          <h1>Simular Investimento com Inflação</h1>
+
+          <form>
             <div>
-              <label htmlFor="">
+              <label>
                 <span>Valor inicial (R$)</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={valorInicial}
+                  onChange={(e) => setValorInicial(e.target.value)}
+                />
               </label>
-              <label htmlFor="">
+
+              <label>
                 <span>Prazo (meses)</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={prazoMeses}
+                  onChange={(e) => setPrazoMeses(e.target.value)}
+                />
               </label>
-              <label htmlFor=""  className="inflacao-select">
+
+              <label className="inflacao-select">
                 <span>Cenário Econômico</span>
-                <select name="" id="">
-                  <option value="">Otimista</option>
-                  <option value="">Não sei</option>
+                <select value={cenario} onChange={(e) => setCenario(e.target.value)}>
+                  <option value="otimista">Otimista</option>
+                  <option value="neutro">Neutro</option>
+                  <option value="pessimista">Pessimista</option>
                 </select>
               </label>
             </div>
+
             <div className="inflacao-juros">
-              <label htmlFor="">
+              <label>
                 <span>Taxa de rendimento (% ao mês)</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={taxaMensal}
+                  onChange={(e) => setTaxaMensal(e.target.value)}
+                />
               </label>
-              <label htmlFor=""  className="inflacao-select">
-                <select name="" id="">
-                  <option value="">Juros Simples</option>
-                  <option value="">Juros Compostos</option>
+
+              <label className="inflacao-select">
+                <span>Tipo de Aplicação</span>
+                <select value={tipoJuros} onChange={(e) => setTipoJuros(e.target.value)}>
+                  <option value="simples">Juros Simples</option>
+                  <option value="compostos">Juros Compostos</option>
                 </select>
               </label>
             </div>
           </form>
-          <button>Calcular</button>
+
+          <button onClick={calcular}>Calcular</button>
         </div>
+
         <div className="inflacao-grafico">
-          <Chart chartType="LineChart" data={data} options={options} />
+          <h2 style={{ marginBottom: "10px" }}>Evolução do Investimento</h2>
+
+          {/* Dados adicionais abaixo do título */}
+          {valorFinalReal !== null && lucroReal !== null && (
+            <div className="inflacao-resultados" style={{ marginBottom: "20px" }}>
+              <p><strong>Valor Final Real:</strong> R$ {valorFinalReal}</p>
+              <p><strong>Lucro Real:</strong> R$ {lucroReal}</p>
+            </div>
+          )}
+
+          <Chart chartType="LineChart" data={graficoData} options={{
+            title: "",
+            hAxis: { title: "Meses" },
+            vAxis: { title: "Valor (R$)" },
+            legend: { position: "bottom" },
+          }} />
         </div>
       </main>
     </>

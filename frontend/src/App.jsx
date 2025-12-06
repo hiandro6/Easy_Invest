@@ -16,8 +16,9 @@ function App() {
     <>
       {/* <Taxas></Taxas> funcionando */}
       <Login></Login> {/*login é obrigatório para acessar a maioria das rotas */}
-      <Emprestimo></Emprestimo>
+      {/* <Emprestimo></Emprestimo> funcionando */}
       {/* <Register></Register> */}
+      <Inflacao></Inflacao>
       <Investimento></Investimento>
     </>
   )
