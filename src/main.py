@@ -158,8 +158,9 @@ async def get_cotacao(par: str, valor: float = Query(..., description="Valor a s
 
 @app.post("/simulations/loan", response_model=SimulationSchema)
 def simulate_loan(loan: Loan, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
-    print("Recebido:", loan)
-    print("TIPO:", repr(loan.tipo_juros))
+    print("Recebido PELA ROTA LOAN:", loan.model_dump())
+    print("Recebido 2 PELA ROTA LOAN:", loan)
+    print("TIPO 3 ROTA LOAN:", repr(loan.tipo_juros))
     valores_mensais = []
     C = loan.valor_desejado
     i = loan.taxa_juros / 100
