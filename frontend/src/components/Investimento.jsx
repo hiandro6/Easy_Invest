@@ -1,68 +1,172 @@
+import { useState } from "react";
 import "./Investimento.css";
 import { Chart } from "react-google-charts";
 import arrow from "../assets/arrow_back.svg";
 
-const data = [
-  ["Mês", "Saldo (R$)"],
-  [0, 1000],
-  [1, 1100],
-  [2, 1200],
-  [3, 1300],
-  [4, 1400],
-  [5, 1500],
-  [6, 1600],
-];
+export default function Investimento() {
+  const [valorInicial, setValorInicial] = useState("");
+  const [prazoMeses, setPrazoMeses] = useState("");
+  const [taxaMensal, setTaxaMensal] = useState("");
+  const [tipoJuros, setTipoJuros] = useState("simples");
 
-const options = {
-  title: "Resultado da simulação",
-  hAxis: {
-    title: "Meses",
-  },
-  vAxis: {
-    title: "Saldo (R$)",
-  },
-  legend: "none",
-};
+  const [chartData, setChartData] = useState(null);
+  const [valorFinal, setValorFinal] = useState(null);
+  const [lucro, setLucro] = useState(null);
 
-export default function investimento() {
+  async function simular() {
+    const token = localStorage.getItem("token");
+
+    const payload = {
+      valor_inicial: parseFloat(valorInicial),
+      prazo_meses: parseInt(prazoMeses),
+      taxa_mensal: parseFloat(taxaMensal),
+      tipo_juros: tipoJuros,
+    };
+
+    console.log("Enviando:", payload);
+
+    const response = await fetch("http://localhost:8000/simulations/investment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      alert("Erro ao calcular investimento");
+      return;
+    }
+
+    const data = await response.json();
+    console.log("Recebido:", data);
+
+    // Organiza os dados para o Google Charts
+    const evolucao = data.result_data.evolucao;
+
+    const formatted = [
+      ["Mês", "Saldo (R$)"],
+      ...evolucao.map((e) => [e.mes, e.valor]),
+    ];
+
+    setChartData(formatted);
+    setValorFinal(data.result_data.valor_final);
+    setLucro(data.result_data.lucro);
+  }
+
+  const options = {
+    title: "Evolução do Investimento",
+    hAxis: { title: "Meses" },
+    vAxis: { title: "Saldo (R$)" },
+    legend: "none",
+  };
+
+
+
+  async function gerarPDF() {
+  const token = localStorage.getItem("token");
+
+  const payload = {
+    valor_inicial: parseFloat(valorInicial),
+    prazo_meses: parseInt(prazoMeses),
+    taxa_mensal: parseFloat(taxaMensal),
+    tipo_juros: tipoJuros,
+  };
+
+  const response = await fetch("http://localhost:8000/simulations/investment/pdf", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    alert("Erro ao gerar PDF");
+    return;
+  }
+
+  // Receber o PDF como blob
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+
+  // Download automático
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "simulacao_investimento.pdf";
+  link.click();
+  }
+
+
   return (
     <>
       <header className="investimento-nav">
-        <img src={arrow} alt="Image of a arrow" />
+        <img src={arrow} alt="Voltar" />
       </header>
+
       <main className="investimento-main">
-        <div className="investimento-simular ">
+        <div className="investimento-simular">
           <h1>Simular Investimento</h1>
-          <form action="">
+
+          <form onSubmit={(e) => e.preventDefault()}>
             <div>
-              <label htmlFor="">
+              <label>
                 <span>Valor Inicial (R$)</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={valorInicial}
+                  onChange={(e) => setValorInicial(e.target.value)}
+                />
               </label>
-              <label htmlFor="">
+
+              <label>
                 <span>Prazo (meses)</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={prazoMeses}
+                  onChange={(e) => setPrazoMeses(e.target.value)}
+                />
               </label>
             </div>
+
             <div className="investimento-juros">
-              <label htmlFor="">
+              <label>
                 <span>Taxa de rendimento (% ao mês)</span>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={taxaMensal}
+                  onChange={(e) => setTaxaMensal(e.target.value)}
+                />
               </label>
-              <label htmlFor="">
+
+              <label>
                 <span>Tipo de Aplicação</span>
-                <select name="" id="">
-                  <option value="">Juros Simples</option>
-                  <option value="">Juros Compostos</option>
+                <select
+                  value={tipoJuros}
+                  onChange={(e) => setTipoJuros(e.target.value)}
+                >
+                  <option value="simples">Juros Simples</option>
+                  <option value="compostos">Juros Compostos</option>
                 </select>
               </label>
             </div>
           </form>
-          <button>Calcular</button>
+
+          <button onClick={simular}>Calcular</button>
         </div>
+
         <div className="investimento-grafico">
-          <Chart chartType="LineChart" data={data} options={options} />
-          <button>Gerar PDF</button>
+          {chartData && (
+            <>
+              <Chart chartType="LineChart" data={chartData} options={options} />
+              <p><strong>Valor Final:</strong> R$ {valorFinal}</p>
+              <p><strong>Lucro:</strong> R$ {lucro}</p>
+            </>
+          )}
+
+          <button onClick={gerarPDF}>Gerar PDF</button>
         </div>
       </main>
     </>

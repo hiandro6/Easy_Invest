@@ -14,11 +14,11 @@ function App() {
 
   return (
     <>
-      {/* <Emprestimo></Emprestimo> */}
-      <Taxas></Taxas>
-      <Login></Login>
+      {/* <Taxas></Taxas> funcionando */}
+      <Login></Login> {/*login é obrigatório para acessar a maioria das rotas */}
       <Emprestimo></Emprestimo>
       {/* <Register></Register> */}
+      <Investimento></Investimento>
     </>
   )
 }

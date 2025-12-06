@@ -20,6 +20,14 @@ from core.auth import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm 
 from fastapi.middleware.cors import CORSMiddleware
 
+#pra exportação de pdf:
+from fastapi.responses import FileResponse
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+import tempfile
+
 load_dotenv()
 
 # AWESOME API (COTAÇÃO DAS MOEDAs)
@@ -88,6 +96,72 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessio
     return {"access_token": token, "token_type": "bearer"}
 
 
+
+@app.post("/simulations/investment/pdf")
+def generate_investment_pdf(investment: Investment, current_user: User = Depends(get_current_user)):
+    C = investment.valor_inicial
+    i = investment.taxa_mensal / 100
+    t = investment.prazo_meses
+
+    evolucao = []
+    if investment.tipo_juros == "simples":
+        for mes in range(1, t + 1):
+            valor = C * (1 + i * mes)
+            evolucao.append([mes, round(valor, 2)])
+    else:
+        for mes in range(1, t + 1):
+            valor = C * ((1 + i) ** mes)
+            evolucao.append([mes, round(valor, 2)])
+
+    valor_final = evolucao[-1][1]
+    lucro = valor_final - C
+
+    styles = getSampleStyleSheet()
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+        pdf_path = tmp.name
+
+    doc = SimpleDocTemplate(pdf_path, pagesize=A4)
+    elements = []
+
+    #título
+    elements.append(Paragraph("<b>Relatório de Simulação de Investimento</b>", styles['Title']))
+    elements.append(Spacer(1, 20))
+
+    #dados iniciais
+    elements.append(Paragraph(f"<b>Valor Inicial:</b> R$ {C}", styles['Normal']))
+    elements.append(Paragraph(f"<b>Prazo:</b> {t} meses", styles['Normal']))
+    elements.append(Paragraph(f"<b>Taxa Mensal:</b> {investment.taxa_mensal}% ao mês", styles['Normal']))
+    elements.append(Paragraph(f"<b>Tipo de Juros:</b> {investment.tipo_juros.title()}", styles['Normal']))
+    elements.append(Spacer(1, 20))
+
+    #resultado
+    elements.append(Paragraph(f"<b>Valor Final:</b> R$ {round(valor_final, 2)}", styles['Heading3']))
+    elements.append(Paragraph(f"<b>Lucro:</b> R$ {round(lucro, 2)}", styles['Heading3']))
+    elements.append(Spacer(1, 20))
+
+    #tabela da evolução
+    table_data = [["Mês", "Saldo (R$)"]] + evolucao
+
+    table = Table(table_data)
+    table.setStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
+        ("GRID", (0, 0), (-1, -1), 1, colors.black),
+        ("ALIGN", (1, 1), (-1, -1), "CENTER")
+    ])
+
+    elements.append(Paragraph("<b>Evolução Mensal</b>", styles['Heading2']))
+    elements.append(table)
+
+    doc.build(elements)
+
+    return FileResponse(
+        pdf_path,
+        media_type="application/pdf",
+        filename="simulacao_investimento.pdf"
+    )
+
+
 @app.post("/simulations/investment", response_model=SimulationSchema) 
 def simulate_investment(investment: Investment, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 
@@ -102,7 +176,7 @@ def simulate_investment(investment: Investment, current_user: User = Depends(get
         for mes in range(1, t + 1):
             valor = C * (1 + i * mes)
             evolucao.append({"mes": mes, "valor": round(valor)})
-    if investment.tipo_juros == "compostos":
+    elif investment.tipo_juros == "compostos":
         M = C * ((1 + i) ** t)
 
         for mes in range(1, t + 1):
@@ -333,7 +407,7 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation, cur
             })
 
 
-    if investment_inflation.tipo_juros == "compostos":
+    elif investment_inflation.tipo_juros == "compostos":
         M = C * ((1 + i) ** t)
 
         for mes in range(1, t + 1):
