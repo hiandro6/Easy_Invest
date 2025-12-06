@@ -281,6 +281,27 @@ def get_simulation_history(
     return simulations
 
 
+
+@app.delete("/simulations/{sim_id}")
+def delete_simulation(
+    sim_id: int,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session)
+):
+    simulation = session.get(SimulationModel, sim_id)
+
+    if not simulation:
+        raise HTTPException(status_code=404, detail="Simulação não encontrada")
+
+    if simulation.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Sem permissão para apagar esta simulação")
+
+    session.delete(simulation)
+    session.commit()
+
+    return {"message": "Simulação apagada com sucesso", "deleted_id": sim_id}
+
+
 @app.post("/simulations/compare", response_model=SimulationSchema)  
 def compare_simulations(compare_request: CompareRequest, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
 

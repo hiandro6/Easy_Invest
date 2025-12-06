@@ -19,7 +19,8 @@ function App() {
       {/* <Emprestimo></Emprestimo> funcionando */}
       {/* <Register></Register> */}
       {/* <Inflacao></Inflacao> */}
-      <Comparar></Comparar>
+      {/* <Comparar></Comparar> */}
+      <Historico></Historico>
       <Investimento></Investimento>
     </>
   )
