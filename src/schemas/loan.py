@@ -3,9 +3,9 @@ from typing import Optional, Literal
 
 
 class Loan(BaseModel):
-    id: Optional[int]
+    id: Optional[int] = None
     valor_desejado: float
     prazo_meses: int
     taxa_juros: float
-    valor_final: Optional[float] = None
     tipo_juros: Literal['simples', 'compostos']
+    valor_final: Optional[float] = None
