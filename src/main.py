@@ -28,6 +28,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 import tempfile
 
+from finlight_client import FinlightApi, ApiConfig
+from finlight_client.models import GetArticlesParams
+
 load_dotenv()
 
 # AWESOME API (COTAÇÃO DAS MOEDAs)
@@ -35,8 +38,13 @@ token = os.getenv('AWESOME_API_KEY')
 awesome_url = "https://economia.awesomeapi.com.br/json/last"
 # Finlight api (noticias)
 FINLIGHT_API_KEY = os.getenv("FINLIGHT_API_KEY")  # ou define diretamente
-FINLIGHT_URL = "https://api.finlight.me/articles"
-
+FINLIGHT_URL = "https://api.finlight.me/v1/articles"
+# Inicializa o cliente da Finlight
+client = FinlightApi(
+    config=ApiConfig(
+        api_key=FINLIGHT_API_KEY
+    )
+)
 
 
 @asynccontextmanager
@@ -469,39 +477,31 @@ def simulate_investment_inflation(investment_inflation: InvestmentInflation, cur
 
     return simulation
 
-# ROTA NOTICIAS
-# @app.get("/news")
-# async def get_news():
-#     payload = {
-#         "query": "stocks",
-#         "pageSize": 3,
-#         "providers": ["all"]   # <-- IMPORTANTE
-#     }
 
-#     headers = {
-#         "accept": "application/json",
-#         "Content-Type": "application/json",
-#         "X-API-KEY": FINLIGHT_API_KEY
-#     }
+@app.get("/news")
+async def get_news():
+    try:
+        # Parâmetros da busca
+        params = GetArticlesParams(
+            query="stocks",
+            language="en",
+            page_size=3
+        )
 
-#     async with httpx.AsyncClient() as client:
-#         response = await client.post(FINLIGHT_URL, json=payload, headers=headers)
+        # Chama a API via SDK oficial
+        result = client.articles.fetch_articles(params=params)
 
-#     if response.status_code != 200:
-#         raise HTTPException(
-#             status_code=response.status_code,
-#             detail=f"Erro ao buscar notícias: {response.text}"
-#         )
+        # result.articles é uma lista de artigos
+        articles = []
+        for art in result.articles[:3]:
+            articles.append({
+                "title": art.title,
+                "summary": art.summary,
+                "image": art.images[0] if art.images else None,
+                "link": art.link
+            })
 
-#     data = response.json()
+        return {"news": articles}
 
-#     # Simplificação: pegar só os campos necessários
-#     articles = []
-#     for art in data.get("articles", [])[:3]:
-#         articles.append({
-#             "title": art.get("title"),
-#             "summary": art.get("summary"),
-#             "image": art.get("images")[0] if art.get("images") else None
-#         })
-
-#     return {"news": articles}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao buscar notícias: {e}")
