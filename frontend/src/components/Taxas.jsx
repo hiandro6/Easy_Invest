@@ -9,13 +9,13 @@ export default function Taxas() {
     const [rates, setRates] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Carrega as taxas ao abrir o componente
     useEffect(() => {
         fetchRates();
     }, []);
 
     async function fetchRates() {
         try {
+            setLoading(true);
             const response = await api.get("/taxas-juros/");
             setRates(response.data);
         } catch (error) {
@@ -25,8 +25,13 @@ export default function Taxas() {
         }
     }
 
-    if (loading) {
-        return <p style={{ color: "white", textAlign: "center" }}>Carregando taxas...</p>;
+    if (loading){
+        return (
+            <div className="loader-container">
+                <div className="loader"></div>
+                <span>Bucando taxas...</span>
+            </div>
+        );
     }
 
     return (
@@ -39,7 +44,7 @@ export default function Taxas() {
 
             <section className="taxas-conteudo">
                 <div className="alinhamento">
-                    
+
                     <div className="taxas-conteudo-cabecalho">
                         <div className="taxas-cifrao">R$</div>
                         <div className="taxas-cifrao-texto">

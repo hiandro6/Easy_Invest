@@ -2,7 +2,6 @@ import "./Inflacao.css";
 import { Chart } from "react-google-charts";
 import arrow from "../assets/arrow_back.svg";
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
 
 export default function Inflacao() {
@@ -16,6 +15,8 @@ export default function Inflacao() {
   const [valorFinalReal, setValorFinalReal] = useState(null);
   const [lucroReal, setLucroReal] = useState(null);
 
+  const [mostrarGrafico, setMostrarGrafico] = useState(false);
+
   async function calcular() {
     try {
       const token = localStorage.getItem("token");
@@ -28,29 +29,30 @@ export default function Inflacao() {
         cenario: cenario,
       };
 
-      const response = await fetch("http://localhost:8000/simulations/investment-inflation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        "http://localhost:8000/simulations/investment-inflation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const data = await response.json();
 
-      // montar gráfico
       const linhas = [["Mês", "Nominal", "Real"]];
       data.result_data.evolucao.forEach((item) => {
         linhas.push([item.mes, item.valor, item.valor_real]);
       });
 
       setGraficoData(linhas);
-
-      // salvar valores reais
       setValorFinalReal(data.result_data.valor_final_real);
       setLucroReal(data.result_data.lucro_real);
 
+      setMostrarGrafico(true);
     } catch (err) {
       console.error("Erro ao calcular inflação:", err);
     }
@@ -59,7 +61,7 @@ export default function Inflacao() {
   return (
     <>
       <header className="inflacao-nav">
-        <Link to='/dashboard'>
+        <Link to="/dashboard">
           <img src={arrow} alt="Image of a arrow" />
         </Link>
       </header>
@@ -90,7 +92,10 @@ export default function Inflacao() {
 
               <label className="inflacao-select">
                 <span>Cenário Econômico</span>
-                <select value={cenario} onChange={(e) => setCenario(e.target.value)}>
+                <select
+                  value={cenario}
+                  onChange={(e) => setCenario(e.target.value)}
+                >
                   <option value="otimista">Otimista</option>
                   <option value="neutro">Neutro</option>
                   <option value="pessimista">Pessimista</option>
@@ -110,7 +115,10 @@ export default function Inflacao() {
 
               <label className="inflacao-select">
                 <span>Tipo de Aplicação</span>
-                <select value={tipoJuros} onChange={(e) => setTipoJuros(e.target.value)}>
+                <select
+                  value={tipoJuros}
+                  onChange={(e) => setTipoJuros(e.target.value)}
+                >
                   <option value="simples">Juros Simples</option>
                   <option value="compostos">Juros Compostos</option>
                 </select>
@@ -121,24 +129,39 @@ export default function Inflacao() {
           <button onClick={calcular}>Calcular</button>
         </div>
 
-        <div className="inflacao-grafico">
-          <h2 style={{ marginBottom: "10px" }}>Evolução do Investimento</h2>
+        {/* Só aparece após clicar no botão */}
+        {mostrarGrafico && (
+          <div className="inflacao-grafico">
+            <h2 style={{ marginBottom: "10px" }}>Evolução do Investimento</h2>
 
-          {/* Dados adicionais abaixo do título */}
-          {valorFinalReal !== null && lucroReal !== null && (
-            <div className="inflacao-resultados" style={{ marginBottom: "20px" }}>
-              <p><strong>Valor Final Real:</strong> R$ {valorFinalReal}</p>
-              <p><strong>Lucro Real:</strong> R$ {lucroReal}</p>
-            </div>
-          )}
+            {valorFinalReal !== null && lucroReal !== null && (
+              <div
+                className="inflacao-resultados"
+                style={{ marginBottom: "20px" }}
+              >
+                <p>
+                  <strong>Valor Final Real:</strong> R$ {valorFinalReal}
+                </p>
+                <p>
+                  <strong>Lucro Real:</strong> R$ {lucroReal}
+                </p>
+              </div>
+            )}
 
-          <Chart chartType="LineChart" data={graficoData} options={{
-            title: "",
-            hAxis: { title: "Meses" },
-            vAxis: { title: "Valor (R$)" },
-            legend: { position: "bottom" },
-          }} />
-        </div>
+            {/* Só renderiza quando houver dados */}
+            {graficoData.length > 1 && (
+              <Chart
+                chartType="LineChart"
+                data={graficoData}
+                options={{
+                  hAxis: { title: "Meses" },
+                  vAxis: { title: "Valor (R$)" },
+                  legend: { position: "bottom" },
+                }}
+              />
+            )}
+          </div>
+        )}
       </main>
     </>
   );

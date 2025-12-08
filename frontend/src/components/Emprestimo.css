@@ -11,15 +11,11 @@
   gap: 20px;
 }
 
-.emprestimo-simular {
-  flex-grow: 1;
-  max-width: 50%;
-}
-
 .emprestimo-grafico {
   flex-grow: 1;
   box-shadow: 0 0 5px gray;
   border-radius: 10px;
+  min-width: 600px;
 }
 
 .emprestimo-simular {
@@ -28,7 +24,9 @@
   gap: 15px;
   border: 2px solid var(--primary-color);
   align-items: center;
+  justify-content: center;
   padding: 15px;
+  min-width: 600px;
 }
 
 .emprestimo-simular h1 {
@@ -37,7 +35,16 @@
 
 .emprestimo-simular form {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  width: 90%;
   flex-wrap: wrap;
+}
+
+.emprestimo-simular form button{
+  width: 50%;
+  margin: auto;
 }
 .emprestimo-simular form div {
   flex-grow: 1;

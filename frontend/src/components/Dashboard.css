@@ -1,3 +1,5 @@
+
+
 .dashboard-nav {
   height: 10%;
   background-color: var(--primary-color);
@@ -5,6 +7,7 @@
   justify-content: end;
   padding-right: 50px;
   align-items: center;
+  width: 100%;
 }
 
 .dashboard-opcoes a {
