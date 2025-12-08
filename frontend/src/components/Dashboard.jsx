@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import "./Dashboard.css";
 import cambio from "../assets/currency_exchange.svg";
-
+import comparar from "../assets/comparar.svg";
+import dinheiro from "../assets/dinheiro.svg";
+import emprestimo from "../assets/emprestimo.svg";
+import historia from "../assets/historia.svg";
+import impostos from "../assets/impostos.svg";
+import inflacao from "../assets/inflacao.svg";
 import { Link } from "react-router-dom";
 
 
@@ -82,32 +87,32 @@ export default function Dashboard() {
           </Link>
 
           <Link to="/emprestimo" className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
+            <img src={emprestimo} alt="Image of cambiox" />
             <h3>Simular empréstimo</h3>
           </Link>
 
           <Link to="/inflacao" className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
+            <img src={inflacao} alt="Image of cambiox" />
             <h3>Simular com cenários de inflação</h3>
           </Link>
 
           <Link to="/historico" className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
+            <img src={historia} alt="Image of cambiox" />
             <h3>Histórico de simulações</h3>
           </Link>
 
           <Link to="/taxas" className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
+            <img src={impostos} alt="Image of cambiox" />
             <h3>Consultar taxas do mercado</h3>
           </Link>
 
           <Link to="/cotacao" className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
+            <img src={dinheiro} alt="Image of cambiox" />
             <h3>Consultar cotação de moedas</h3>
           </Link>
 
           <Link to="/comparar" className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
+            <img src={comparar} alt="Image of cambiox" />
             <h3>Comparar simulações</h3>
           </Link>
 
