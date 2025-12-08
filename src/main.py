@@ -19,6 +19,7 @@ from models.user import User
 from core.auth import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm 
 from fastapi.middleware.cors import CORSMiddleware
+from schemas.cotacao import CotacaoRequest
 
 #pra exportação de pdf:
 from fastapi.responses import FileResponse
@@ -213,7 +214,7 @@ def simulate_investment(investment: Investment, current_user: User = Depends(get
 
     return simulation
 
-@app.post("/cotacao/")
+"""@app.post("/cotacao/")
 async def get_cotacao(par: str, valor: float = Query(..., description="Valor a ser convertido")):
     headers = {"X-API-Key": token}
 
@@ -239,6 +240,38 @@ async def get_cotacao(par: str, valor: float = Query(..., description="Valor a s
         "bid": bid,
         "valor_convertido": valor_convertido
     }
+"""
+
+
+
+
+@app.post("/cotacao/")
+async def get_cotacao(body: CotacaoRequest):
+    par = body.par
+    valor = body.valor
+
+    headers = {"X-API-Key": token}
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{awesome_url}/{par}", headers=headers)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code, detail=response.text)
+
+        data = response.json()
+
+    key = list(data.keys())[0]
+    bid = float(data[key]["bid"])
+
+    valor_convertido = valor * bid
+
+    return {
+        "par": par,
+        "valor_original": valor,
+        "bid": bid,
+        "valor_convertido": valor_convertido
+    }
+
 
 
 @app.post("/simulations/loan", response_model=SimulationSchema)
