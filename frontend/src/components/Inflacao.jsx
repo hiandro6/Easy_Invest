@@ -17,7 +17,7 @@ export default function Inflacao() {
 
   const [mostrarGrafico, setMostrarGrafico] = useState(false);
 
-  async function calcular() {
+  async function calcular(){
     try {
       const token = localStorage.getItem("token");
 
