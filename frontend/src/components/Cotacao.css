@@ -83,12 +83,14 @@
   justify-content: space-around;
   align-items: center;
   gap: 10px;
+  width: 80;
+  margin-left: 1rem;
 }
 
 .cotacao-saida .original,
 .cotacao-saida .destino {
-  width: 35%;
-  height: 70%;
+  width: 10;
+  height: 5rem;
   background-color: var(--primary-color);
   border-radius: 10px;
   display: flex;

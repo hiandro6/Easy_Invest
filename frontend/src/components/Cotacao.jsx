@@ -71,8 +71,8 @@ export default function Cotacao() {
 
                             {/* BLOCO - 1 MOEDA = X REAIS */}
                             <div className="destino">
-                                <h2>1 {moeda} =</h2>
-                                <h2 className="cotacao-valor">R$ {resultado.bid}</h2>
+                                <h2>R$ 1 =</h2>
+                                <h2 className="cotacao-valor">{moeda} {resultado.bid.toFixed(2)}</h2>
                             </div>
 
                             {/* BLOCO - VALOR EM REAIS = X MOEDA */}
