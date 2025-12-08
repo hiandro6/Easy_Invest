@@ -3,6 +3,8 @@ import api from "../api/axios";
 import "./Taxas.css";
 import arrow from "../assets/arrow_back.svg";
 
+import { Link } from "react-router-dom";
+
 export default function Taxas() {
     const [rates, setRates] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -30,7 +32,9 @@ export default function Taxas() {
     return (
         <main className="taxas-main">
             <section className="taxas-nav">
-                <img src={arrow} alt="Image of a arrow" />
+                <Link to='/dashboard'>
+                    <img src={arrow} alt="Image of a arrow" />
+                </Link>
             </section>
 
             <section className="taxas-conteudo">

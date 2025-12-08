@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import "./Dashboard.css";
 import cambio from "../assets/currency_exchange.svg";
 
+import { Link } from "react-router-dom";
+
+
 export default function Dashboard() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,47 +30,60 @@ export default function Dashboard() {
       <header className="dashboard-nav">
         <nav>
           <button>Consultas</button>
-          <button>Simulação</button>
-          <button>Sair</button>
+
+          <Link to='/investimento'>
+            <button>Simulação</button>
+          </Link>
+          <Link to='/'>
+            <button>Sair</button>
+          </Link>
         </nav>
       </header>
 
       {/* ------------------ MAIN ------------------ */}
       <main className="dashboard-main">
-        <h1 className="intro">Olá, Usuário!</h1>
-        <h1 className="ask">O que vamos fazer hoje?</h1>
+  <h1 className="intro">Olá, Usuário!</h1>
+  <h1 className="ask">O que vamos fazer hoje?</h1>
 
-        <div className="dashboard-opcoes">
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-          <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
-          </div>
-        </div>
-      </main>
+  <div className="dashboard-opcoes">
+
+    <Link to="/investimento" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Simular investimento</h3>
+    </Link>
+
+    <Link to="/emprestimo" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Simular empréstimo</h3>
+    </Link>
+
+    <Link to="/inflacao" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Simular com cenários de inflação</h3>
+    </Link>
+
+    <Link to="/historico" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Histórico de simulações</h3>
+    </Link>
+
+    <Link to="/taxas" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Consultar taxas do mercado</h3>
+    </Link>
+
+    <Link to="/cotacao" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Consultar cotação de moedas</h3>
+    </Link>
+
+    <Link to="/comparar" className="opcoes">
+      <img src={cambio} alt="Image of cambiox" />
+      <h3>Comparar simulações</h3>
+    </Link>
+
+  </div>
+</main>
 
       {/* ------------------ NOTÍCIAS ------------------ */}
       <section className="dashboard-noticias">

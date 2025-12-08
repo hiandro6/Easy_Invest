@@ -3,6 +3,8 @@ import "./Investimento.css";
 import { Chart } from "react-google-charts";
 import arrow from "../assets/arrow_back.svg";
 
+import { Link } from "react-router-dom";
+
 export default function Investimento() {
   const [valorInicial, setValorInicial] = useState("");
   const [prazoMeses, setPrazoMeses] = useState("");
@@ -103,7 +105,9 @@ export default function Investimento() {
   return (
     <>
       <header className="investimento-nav">
-        <img src={arrow} alt="Voltar" />
+        <Link to='/dashboard'>
+          <img src={arrow} alt="Image of a arrow" />
+        </Link>
       </header>
 
       <main className="investimento-main">

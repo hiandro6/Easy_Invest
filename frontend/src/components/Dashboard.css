@@ -7,6 +7,12 @@
   align-items: center;
 }
 
+.dashboard-opcoes a {
+  
+  display: block;      
+  cursor: pointer;
+}
+
 .dashboard-nav nav {
   display: flex;
   gap: 15px;
@@ -59,14 +65,22 @@
   gap: 15px;
   box-shadow: 0px 3px 5px gray;
   border-radius: 10px;
-  flex-grow: 1;
+  justify-content: center;  /* centraliza verticalmente */
   align-items: center;
   flex-basis: 24%;
   max-width: 24%;
+  text-decoration: none; 
+  color: inherit;
+}
+
+.opcoes h3 {
+  text-align: center;
 }
 
 .opcoes img {
   height: 60px;
+  display: block;
+  margin: 0 auto;     
 }
 
 .opcoes:hover,
@@ -76,7 +90,6 @@
 }
 
 .dashboard-noticias {
-  padding: 50px;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -1,12 +1,16 @@
 import "./Cotacao.css";
 import arrow from "../assets/arrow_back.svg"
 
+import { Link } from "react-router-dom";
+
 export default function Cotacao() {
     return (
         <>
             <main className="cotacao-main">
                 <section className="cotacao-nav">
-                    <img src={arrow} alt="Image of a arrow" />
+                    <Link to='/dashboard'>
+                        <img src={arrow} alt="Image of a arrow" />
+                    </Link>
                 </section>
                 <section className="cotacao-consulta">
                     <h1>Cotação de Moedas</h1>

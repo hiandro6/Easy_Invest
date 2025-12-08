@@ -1,6 +1,9 @@
 import "./Comparar.css";
 import { useState } from "react";
 import { Chart } from "react-google-charts";
+import arrow from "../assets/arrow_back.svg"
+
+import { Link } from "react-router-dom";
 
 export default function Comparar() {
   const [sim1, setSim1] = useState({ valor: "", juros: "", meses: "", tipo: "simples" });
@@ -114,6 +117,9 @@ export default function Comparar() {
   return (
     <>
       <main className="comparar-main">
+        <Link to='/dashboard'>
+          <img src={arrow} alt="Image of a arrow" />
+        </Link>
         <div className="container-forms">
 
           {renderForm(sim1, setSim1, "Simulação 1")}

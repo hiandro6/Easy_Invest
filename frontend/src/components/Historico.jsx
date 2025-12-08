@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./Historico.css";
 import arrow from "../assets/arrow_back.svg";
 
+import { Link } from "react-router-dom";
+      
 export default function Historico() {
     const [simulations, setSimulations] = useState([]);
 
@@ -70,7 +72,9 @@ export default function Historico() {
     return (
         <>
             <header className="historico-nav">
-                <img src={arrow} alt="Arrow" />
+                <Link to='/dashboard'>
+                    <img src={arrow} alt="Image of a arrow" />
+                </Link>
                 <h1>Histórico de Simulações</h1>
             </header>
 

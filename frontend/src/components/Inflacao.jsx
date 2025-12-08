@@ -3,6 +3,8 @@ import { Chart } from "react-google-charts";
 import arrow from "../assets/arrow_back.svg";
 import { useState } from "react";
 
+import { Link } from "react-router-dom";
+
 export default function Inflacao() {
   const [valorInicial, setValorInicial] = useState("");
   const [prazoMeses, setPrazoMeses] = useState("");
@@ -57,7 +59,9 @@ export default function Inflacao() {
   return (
     <>
       <header className="inflacao-nav">
-        <img src={arrow} alt="Image of a arrow" />
+        <Link to='/dashboard'>
+          <img src={arrow} alt="Image of a arrow" />
+        </Link>
       </header>
 
       <main className="inflacao-main">
