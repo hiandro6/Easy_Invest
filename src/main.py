@@ -68,6 +68,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/users/me", response_model=UserRead)
+def get_current_user_info(
+    current_user: User = Depends(get_current_user)
+):
+    return current_user
+
+
 @app.post("/users/register", response_model=UserRead)
 def register_user(user: UserCreate, session: Session = Depends(get_session)):
 
