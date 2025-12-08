@@ -1,5 +1,11 @@
 import "./Dashboard.css";
 import cambio from "../assets/currency_exchange.svg";
+import comparar from "../assets/comparar.svg";
+import dinheiro from "../assets/dinheiro.svg";
+import emprestimo from "../assets/emprestimo.svg";
+import historia from "../assets/historia.svg";
+import impostos from "../assets/impostos.svg";
+import inflacao from "../assets/inflacao.svg";
 
 export default function Dashboard() {
   return (
@@ -20,28 +26,28 @@ export default function Dashboard() {
             <h3>Simular investimento</h3>
           </div>
           <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
+            <img src={emprestimo} alt="Image of cambiox" />
+            <h3>Simular empréstimo</h3>
           </div>
           <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
+            <img src={inflacao} alt="Image of cambiox" />
+            <h3>Simular com cenários de inflação</h3>
           </div>
           <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
+            <img src={historia} alt="Image of cambiox" />
+            <h3>Histórico de Simulações</h3>
           </div>
           <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
+            <img src={impostos} alt="Image of cambiox" />
+            <h3>Consultar taxas do mercado</h3>
           </div>
           <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
+            <img src={dinheiro} alt="Image of cambiox" />
+            <h3>Consultar cotação de moedas</h3>
           </div>
           <div className="opcoes">
-            <img src={cambio} alt="Image of cambiox" />
-            <h3>Simular investimento</h3>
+            <img src={comparar} alt="Image of cambiox" />
+            <h3>Comparar simulações</h3>
           </div>
         </div>
       </main>

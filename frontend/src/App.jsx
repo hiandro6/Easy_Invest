@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <Historico></Historico>
+      <Dashboard></Dashboard>
     </>
   )
 }
