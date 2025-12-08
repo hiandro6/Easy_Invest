@@ -102,6 +102,7 @@
   gap: 10px;
   color: #fff;
   align-self: flex-start;
+  text-decoration: none;
 }
 
 .title-register img:hover,

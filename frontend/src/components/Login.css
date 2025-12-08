@@ -98,10 +98,16 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
 }
 .nav-login .title-login img {
   height: 40px;
   width: 40px;
+}
+
+.title-login h1 {
+  text-decoration: none;
+  color: black
 }
 
 .nav-login .title-login img:hover,

@@ -6,6 +6,8 @@ import logo from "../assets/logo_cut.png";
 import api from "../api/axios";
 import { useState } from "react";
 
+import { Link } from "react-router-dom";
+
 export default function Login() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -58,11 +60,12 @@ export default function Login() {
   return (
     <main className="register-main">
       <section className="form-register">
-        <div className="title-register">
-          <img src={arrowIcon} alt="Icon of a arrow" />
-          <h1>Início</h1>
+        <Link to='/'>
+        <div className="title-register"> 
+            <img src={arrowIcon} alt="Icon of a arrow" />
+            <h1>Início</h1>
         </div>
-
+      </Link>
         {erro && <p className="erro-text">{erro}</p>}
         {sucesso && <p className="sucesso-text">{sucesso}</p>}
 
@@ -109,7 +112,9 @@ export default function Login() {
           <button onClick={handleRegister}>Cadastre-se</button>
           <div className="link-register">
             <p>Já possuí cadastro?</p>
-            <a href="">Faça login aqui</a>
+            <Link to='/login'>
+              <a href="">Faça login aqui</a>
+            </Link>
           </div>
         </form>
       </section>

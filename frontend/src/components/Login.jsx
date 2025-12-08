@@ -5,6 +5,8 @@ import passwordIcon from "../assets/old-big-key.png";
 import arrowIcon from "../assets/arrow_back.svg";
 import logo from "../assets/logo_cut.png";
 
+import { Link } from "react-router-dom";
+
 export default function Login() {
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState(""); // "success" | "error"
@@ -36,6 +38,7 @@ export default function Login() {
       } else {
         setFeedback("Login realizado com sucesso!");
         setFeedbackType("success");
+        window.location.href = "/dashboard";
 
         // Salvar token (opcional)
         localStorage.setItem("token", data.access_token);
@@ -53,11 +56,14 @@ export default function Login() {
   return (
     <main className="login-main">
       <section className="nav-login">
-        <div className="title-login">
-          <img src={arrowIcon} alt="Icon of a arrow" />
-          <h1>Início</h1>
-        </div>
-
+        <Link to='/'>
+          <div className="title-login">
+          
+            <img src={arrowIcon} alt="Icon of a arrow" />
+            <h1>Início</h1>
+          
+          </div>
+        </Link>
         <div className="logo-login">
           <img src={logo} alt="Image of a logo" />
         </div>
@@ -89,7 +95,9 @@ export default function Login() {
 
           <div className="link-login">
             <p>Ainda não possui cadastro?</p>
-            <a href="">Cadastre-se aqui</a>
+            <Link to='/register'>
+              <a href="">Cadastre-se aqui</a>
+            </Link>
           </div>
         </form>
       </section>

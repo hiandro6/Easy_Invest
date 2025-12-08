@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
 import Login from './components/Login'
 import Register from './components/Register'
@@ -14,14 +15,24 @@ function App() {
 
   return (
     <>
-      {/* <Taxas></Taxas> funcionando */}
-      <Login></Login> {/*login é obrigatório para acessar a maioria das rotas */}
-      {/* <Emprestimo></Emprestimo> funcionando */}
-      {/* <Register></Register> */}
-      {/* <Inflacao></Inflacao> */}
-      {/* <Comparar></Comparar> */}
-      <Historico></Historico>
-      <Investimento></Investimento>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          <Route path="/taxas" element={<Taxas />} />
+          <Route path="/emprestimo" element={<Emprestimo />} />
+          <Route path="/inflacao" element={<Inflacao />} />
+          <Route path="/comparar" element={<Comparar />} />
+          <Route path="/historico" element={<Historico />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/investimento" element={<Investimento />} />
+          <Route path="/cotacao" element={<Cotacao />} />
+
+          {/* Rota padrão -> redireciona para pagina inicial */}
+          <Route path="*" element={<Wellcome />} />
+
+        </Routes>
+      
     </>
   )
 }
