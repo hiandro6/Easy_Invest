@@ -9,14 +9,15 @@ import impostos from "../assets/impostos.svg";
 import inflacao from "../assets/inflacao.svg";
 import { Link } from "react-router-dom";
 
-
 export default function Dashboard() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState(""); // novo estado para o nome
+  const [userName, setUserName] = useState("");
+
+  const [openConsulta, setOpenConsulta] = useState(false);
+  const [openSimulacao, setOpenSimulacao] = useState(false);
 
   useEffect(() => {
-    // Função para buscar o nome do usuário logado (rota /users/me)
     async function fetchUserName() {
       try {
         const token = localStorage.getItem("token");
@@ -29,7 +30,6 @@ export default function Dashboard() {
         });
 
         if (!res.ok) {
-          // não interrompe o restante — apenas loga
           console.error("Não foi possível obter o nome do usuário:", res.status);
           return;
         }
@@ -53,7 +53,6 @@ export default function Dashboard() {
       }
     }
 
-    // chamar as duas
     fetchUserName();
     fetchNews();
   }, []);
@@ -63,12 +62,58 @@ export default function Dashboard() {
       {/* ------------------ NAV ------------------ */}
       <header className="dashboard-nav">
         <nav>
-          <button>Consultas</button>
 
-          <Link to='/investimento'>
-            <button>Simulação</button>
-          </Link>
-          <Link to='/'>
+          {/* CONSULTAS DROPDOWN */}
+          <div className="dropdown">
+            <button onClick={() => setOpenConsulta(!openConsulta)}>
+              Consultas
+            </button>
+
+            {openConsulta && (
+              <div className="dropdown-menu">
+                <Link to="/taxas" className="dropdown-item">
+                  Consultar taxas do mercado
+                </Link>
+
+                <Link to="/cotacao" className="dropdown-item">
+                  Consultar cotação de moedas
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* SIMULAÇÕES DROPDOWN */}
+          <div className="dropdown">
+            <button onClick={() => setOpenSimulacao(!openSimulacao)}>
+              Simulação
+            </button>
+
+            {openSimulacao && (
+              <div className="dropdown-menu">
+                <Link to="/investimento" className="dropdown-item">
+                  Simular investimento
+                </Link>
+
+                <Link to="/emprestimo" className="dropdown-item">
+                  Simular empréstimo
+                </Link>
+
+                <Link to="/inflacao" className="dropdown-item">
+                  Simular com cenários de inflação
+                </Link>
+
+                <Link to="/comparar" className="dropdown-item">
+                  Comparar simulações
+                </Link>
+
+                <Link to="/historico" className="dropdown-item">
+                  Histórico de simulações
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <Link to="/">
             <button>Sair</button>
           </Link>
         </nav>
@@ -80,7 +125,6 @@ export default function Dashboard() {
         <h1 className="ask">O que vamos fazer hoje?</h1>
 
         <div className="dashboard-opcoes">
-
           <Link to="/investimento" className="opcoes">
             <img src={cambio} alt="Image of cambiox" />
             <h3>Simular investimento</h3>
@@ -115,7 +159,6 @@ export default function Dashboard() {
             <img src={comparar} alt="Image of cambiox" />
             <h3>Comparar simulações</h3>
           </Link>
-
         </div>
       </main>
 

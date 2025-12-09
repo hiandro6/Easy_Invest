@@ -25,8 +25,6 @@ export default function Investimento() {
       tipo_juros: tipoJuros,
     };
 
-    console.log("Enviando:", payload);
-
     const response = await fetch("http://localhost:8000/simulations/investment", {
       method: "POST",
       headers: {
@@ -42,9 +40,7 @@ export default function Investimento() {
     }
 
     const data = await response.json();
-    console.log("Recebido:", data);
 
-    // Organiza os dados para o Google Charts
     const evolucao = data.result_data.evolucao;
 
     const formatted = [
@@ -64,48 +60,43 @@ export default function Investimento() {
     legend: "none",
   };
 
-
-
   async function gerarPDF() {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  const payload = {
-    valor_inicial: parseFloat(valorInicial),
-    prazo_meses: parseInt(prazoMeses),
-    taxa_mensal: parseFloat(taxaMensal),
-    tipo_juros: tipoJuros,
-  };
+    const payload = {
+      valor_inicial: parseFloat(valorInicial),
+      prazo_meses: parseInt(prazoMeses),
+      taxa_mensal: parseFloat(taxaMensal),
+      tipo_juros: tipoJuros,
+    };
 
-  const response = await fetch("http://localhost:8000/simulations/investment/pdf", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
+    const response = await fetch("http://localhost:8000/simulations/investment/pdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
 
-  if (!response.ok) {
-    alert("Erro ao gerar PDF");
-    return;
+    if (!response.ok) {
+      alert("Erro ao gerar PDF");
+      return;
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "simulacao_investimento.pdf";
+    link.click();
   }
-
-  // Receber o PDF como blob
-  const blob = await response.blob();
-  const url = window.URL.createObjectURL(blob);
-
-  // Download automático
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "simulacao_investimento.pdf";
-  link.click();
-  }
-
 
   return (
     <>
       <header className="investimento-nav">
-        <Link to='/dashboard'>
+        <Link to="/dashboard">
           <img src={arrow} alt="Image of a arrow" />
         </Link>
       </header>
@@ -161,17 +152,20 @@ export default function Investimento() {
           <button onClick={simular}>Calcular</button>
         </div>
 
-        <div className="investimento-grafico">
-          {chartData && (
-            <>
-              <Chart chartType="LineChart" data={chartData} options={options} />
-              <p><strong>Valor Final:</strong> R$ {valorFinal}</p>
-              <p><strong>Lucro:</strong> R$ {lucro}</p>
-            </>
-          )}
+        {chartData && (
+          <div className="investimento-grafico">
+            <Chart chartType="LineChart" data={chartData} options={options} />
 
-          <button onClick={gerarPDF}>Gerar PDF</button>
-        </div>
+            <p>
+              <strong>Valor Final:</strong> R$ {valorFinal}
+            </p>
+            <p>
+              <strong>Lucro:</strong> R$ {lucro}
+            </p>
+
+            <button onClick={gerarPDF}>Gerar PDF</button>
+          </div>
+        )}
       </main>
     </>
   );

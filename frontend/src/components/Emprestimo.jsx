@@ -58,7 +58,7 @@ export default function Emprestimo() {
       // Parcelas
       const parcela = data.result_data.valor_final / prazo;
       setParcelasTexto(
-        `R$ ${parcela.toFixed(2)} por ${prazo} meses, totalizando R$ ${data.result_data.valor_final.toFixed(2)}`
+        `Parcelas de R$ ${parcela.toFixed(2)} por ${prazo} meses, totalizando R$ ${data.result_data.valor_final.toFixed(2)}`
       );
     } catch (err) {
       console.log(err);
@@ -112,7 +112,6 @@ export default function Emprestimo() {
       </main>
 
       <section className="emprestimo-parcelas">
-        <h1>Parcelas</h1>
         {parcelasTexto && <h3>{parcelasTexto}</h3>}
       </section>
     </>
