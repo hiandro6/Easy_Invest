@@ -21,6 +21,7 @@
   flex-grow: 1;
   padding: 50px;
   justify-content: center;
+  border: 1px solid gray;
 }
 
 .comparar-content h1 {
@@ -70,6 +71,10 @@
   align-items: center;
   justify-content: space-around;
   margin: 1rem;
+}
+
+.card {
+  border: 1px solid black;
 }
 
 .cards-resultados div{
