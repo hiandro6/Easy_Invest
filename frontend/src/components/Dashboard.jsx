@@ -21,7 +21,10 @@ export default function Dashboard() {
     async function fetchUserName() {
       try {
         const token = localStorage.getItem("token");
-        if (!token) return;
+        if (!token) {
+          window.location.href = "/";
+          return;
+        } 
 
         const res = await fetch("http://127.0.0.1:8000/users/me", {
           headers: {
@@ -56,6 +59,13 @@ export default function Dashboard() {
     fetchUserName();
     fetchNews();
   }, []);
+
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_name");
+    window.location.href = "/"; // sua tela de login
+  }
+  
 
   return (
     <>
@@ -114,7 +124,7 @@ export default function Dashboard() {
           </div>
 
           <Link to="/">
-            <button>Sair</button>
+            <button onClick={logout}>Sair</button>
           </Link>
         </nav>
       </header>
