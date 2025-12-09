@@ -60,7 +60,7 @@ export default function Login() {
           <div className="title-login">
           
             <img src={arrowIcon} alt="Icon of a arrow" />
-            <h1>Início</h1>
+            <h1 className="link-inicio">Início</h1>
           
           </div>
         </Link>

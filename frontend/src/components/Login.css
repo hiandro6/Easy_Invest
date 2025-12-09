@@ -17,10 +17,13 @@
   flex-grow: 1;
   flex-basis: 50%;
   display: flex;
+  position: relative;
+  left: 500px;
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
   border-radius: 50% 0px 0px 50%;
+  min-width: 700px;
 }
 
 .form-login form {
@@ -29,6 +32,7 @@
   flex-direction: column;
   background-color: #fff;
   max-width: 50%;
+  min-width: 200px;
   padding: 100px 35px 45px 35px;
   border-radius: 5px;
   gap: 30px;
@@ -147,3 +151,6 @@
   border: 1px solid #9b1a1a;
 }
 
+.nav-login * {
+  text-decoration: none;
+}
